@@ -58,6 +58,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/monitoring/Overview.vue'),
       },
       {
+        path: '/test',
+        name: 'Test',
+        meta: { title: 'wolaiTest', icon: 'woLai' },
+        component: () => import('@/views/test/index.vue'),
+      },
+      {
         path: '/instReport/:id',
         name: 'InstReport',
         meta: { title: '机构报告', icon: 'LineChartOutlined', hideInMenu: true },

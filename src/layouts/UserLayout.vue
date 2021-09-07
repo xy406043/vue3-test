@@ -24,22 +24,35 @@ import { onMounted, onBeforeMount } from 'vue';
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { onMounted, onBeforeMount } from "vue";
+onMounted(() => {
+  console.log("onMounted触发")
+  document.body.classList.add("userLayout");
+});
 
-export default defineComponent({
-  name: 'UserLayout',
-
-  onMounted() {
-    document.body.classList.add('userLayout');
-  },
-  onBeforeMount() {
-    document.body.classList.remove('userLayout');
-  },
+onBeforeMount(() => {
+  console.log("onBeoforeMount触发")
+  document.body.classList.remove("userLayout");
 });
 </script>
 
 <style lang="less" scoped>
+// <script lang="ts">
+// import { defineComponent } from 'vue';
+
+// export default defineComponent({
+//   name: 'UserLayout',
+
+//   onMounted() {
+//     document.body.classList.add('userLayout');
+//   },
+//   onBeforeMount() {
+//     document.body.classList.remove('userLayout');
+//   },
+// });
+// </script>
+
 #userLayout.user-layout-wrapper {
   height: 100%;
 
@@ -100,7 +113,7 @@ export default defineComponent({
           .title {
             font-size: 33px;
             color: rgba(0, 0, 0, 0.85);
-            font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font-family: Avenir, "Helvetica Neue", Arial, Helvetica, sans-serif;
             font-weight: 600;
             position: relative;
             top: 2px;
