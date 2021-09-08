@@ -22,38 +22,32 @@
   </a-dropdown>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { Modal } from 'ant-design-vue';
-import { UserActionTypes } from '@/store/modules/user/action-types';
-import LocalStore from 'store2';
+<script setup lang="ts">
+import store from "@/store";
+import { useRouter } from "vue-router";
+import { defineComponent, computed } from "vue";
+import { Modal } from "ant-design-vue";
+import { UserActionTypes } from "@/store/modules/user/action-types";
+import LocalStore from "store2";
 
-export default defineComponent({
-  setup() {},
-
-  computed: {
-    userName() {
-      const { phone = '' } = LocalStore.get('USER_INFO') || {};
-      return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
-    },
-  },
-
-  methods: {
-    handleLogout() {
-      Modal.confirm({
-        title: '消息',
-        content: '你确定要退出登录吗？',
-        onOk: () => {
-          this.$store.dispatch(UserActionTypes.LOGOUT).then(() => {
-            Modal.destroyAll();
-            this.$router.push({ name: 'UserLogin' });
-          });
-        },
-        onCancel() {},
+const userName = computed(() => {
+  const { phone = "" } = LocalStore.get("USER_INFO") || {};
+  return phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
+});
+const $router = useRouter();
+const handleLogout = () => {
+  Modal.confirm({
+    title: "消息",
+    content: "你确定要退出登录吗？",
+    onOk: () => {
+      store.dispatch(UserActionTypes.LOGOUT).then(() => {
+        Modal.destroyAll();
+        $router.push({ name: "UserLogin" });
       });
     },
-  },
-});
+    onCancel() {},
+  });
+};
 </script>
 
 <style lang="less" scoped>

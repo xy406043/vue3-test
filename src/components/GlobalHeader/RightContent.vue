@@ -11,7 +11,11 @@
         :overlayStyle="{ width: '500px', height: '450px' }"
         :getPopupContainer="getPopupContainer"
       >
-        <div style="padding: 0 20px" @click="handleMsgVisible" id="bellOutlined">
+        <div
+          style="padding: 0 20px"
+          @click="handleMsgVisible"
+          id="bellOutlined"
+        >
           <a-badge :count="unViewNum">
             <BellOutlined style="font-size: 21px" />
           </a-badge>
@@ -25,106 +29,84 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import MessageTable from './MessageTable.vue';
-import { useMessageList } from '@/hooks/common';
-import { timer, switchMap, retryWhen, delay, scan } from 'rxjs';
-import { useObservable } from '@vueuse/rxjs';
-import { OpinionService } from '../../api/opinion';
-import { Popover } from 'ant-design-vue';
-import AvatarDropdown from './AvatarDropdown.vue';
+<script setup lang="ts">
+import { ref, defineProps, computed } from "vue";
+import MessageTable from "./MessageTable.vue";
+import { useMessageList } from "@/hooks/common";
+import { timer, switchMap, retryWhen, delay, scan } from "rxjs";
+import { useObservable } from "@vueuse/rxjs";
+import { OpinionService } from "../../api/opinion";
+import { Popover } from "ant-design-vue";
+// import AvatarDropdown from "./AvatarDropdown.vue";
 
-export default defineComponent({
-  name: 'RightContent',
-  components: {
-    MessageTable,
-    Popover,
-    AvatarDropdown,
+const props = defineProps({
+  prefixCls: {
+    type: String,
+    default: "ant-pro-global-header-index-action",
   },
-  props: {
-    prefixCls: {
-      type: String,
-      default: 'ant-pro-global-header-index-action',
-    },
-    isMobile: {
-      type: Boolean,
-      default: () => false,
-    },
-    topMenu: {
-      type: Boolean,
-      default: true,
-    },
-    theme: {
-      type: String,
-    },
+  isMobile: {
+    type: Boolean,
+    default: () => false,
   },
-
-  data() {
-    return {
-      showMenu: true,
-      currentUser: {},
-      msgVisible: false,
-    };
+  topMenu: {
+    type: Boolean,
+    default: true,
   },
-
-  computed: {
-    wrpCls(): any {
-      const { isMobile, topMenu, theme } = this;
-      return {
-        'ant-pro-global-header-index-right': true,
-        [`ant-pro-global-header-index-${isMobile || !topMenu ? 'light' : theme}`]: true,
-      };
-    },
-  },
-
-  setup() {
-    const { request: requestMsgList, loading: requestMsgLoading, list: msgs } = useMessageList();
-
-    // 轮询获取未读消息
-    const LOOP_TIME = 2000;
-    const TRY_TIMES = 3;
-    const unViewNum = useObservable(
-      timer(0, LOOP_TIME).pipe(
-        switchMap(OpinionService.unViewNum),
-        retryWhen((err$) =>
-          err$.pipe(
-            scan((errCount, err) => {
-              if (errCount >= TRY_TIMES) {
-                throw err;
-              }
-              return errCount + 1;
-            }, 0),
-            delay(LOOP_TIME),
-          ),
-        ),
-      ),
-    );
-
-    return {
-      requestMsgList,
-      requestMsgLoading,
-      msgs,
-      unViewNum,
-    };
-  },
-
-  methods: {
-    async handleMsgVisible() {
-      if (this.msgVisible) {
-        this.msgVisible = false;
-        return;
-      }
-      if (this.requestMsgLoading) return;
-      await this.requestMsgList();
-      this.msgVisible = true;
-    },
-
-    getPopupContainer(triggerNode: HTMLElement) {
-      return triggerNode.parentNode || document.body;
-    },
+  theme: {
+    type: String,
   },
 });
+const showMenu = ref(true);
+const currentUset = ref({});
+const msgVisible = ref(false);
+
+const {
+  request: requestMsgList,
+  loading: requestMsgLoading,
+  list: msgs,
+} = useMessageList();
+const wrpCls = computed((): any => {
+  const { isMobile, topMenu, theme } = props;
+  return {
+    "ant-pro-global-header-index-right": true,
+    [`ant-pro-global-header-index-${isMobile || !topMenu ? "light" : theme}`]:
+      true,
+  };
+});
+
+// 轮询获取未读消息
+const LOOP_TIME = 2000;
+const TRY_TIMES = 3;
+const unViewNum = useObservable(
+  timer(0, LOOP_TIME).pipe(
+    switchMap(OpinionService.unViewNum),
+    retryWhen((err$) =>
+      err$.pipe(
+        scan((errCount, err) => {
+          if (errCount >= TRY_TIMES) {
+            throw err;
+          }
+          return errCount + 1;
+        }, 0),
+        delay(LOOP_TIME)
+      )
+    )
+  )
+);
+
+const handleMsgVisible = async () => {
+  if (msgVisible.value) {
+    msgVisible.value = false;
+    return;
+  }
+  if (requestMsgLoading.value) return;
+  await requestMsgList();
+  msgVisible.value = true;
+};
+
+const getPopupContainer = (triggerNode: HTMLElement) => {
+  return triggerNode.parentNode || document.body;
+};
 </script>
 
 <style>
