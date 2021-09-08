@@ -2,8 +2,15 @@
   <div class="header">
     <div>
       <span>关键词：</span>
-      <a-radio-group button-style="solid" v-model:value="searchParams.keywordId">
-        <a-radio-button :value="keyword.id" :key="keyword.id" v-for="keyword in keywords">
+      <a-radio-group
+        button-style="solid"
+        v-model:value="searchParams.keywordId"
+      >
+        <a-radio-button
+          :value="keyword.id"
+          :key="keyword.id"
+          v-for="keyword in keywords"
+        >
           {{ keyword.name }}
         </a-radio-button>
       </a-radio-group>
@@ -31,7 +38,11 @@
     </div>
   </div>
 
-  <a-button style="margin: 20px 0; float: right" @click="exportExcel" :loading="exportLoading">
+  <a-button
+    style="margin: 20px 0; float: right"
+    @click="exportExcel"
+    :loading="exportLoading"
+  >
     导出
   </a-button>
 
@@ -55,14 +66,20 @@
       {{ fmtPlace(record) }}
     </template>
     <template #noteContent="{ text }">
-      <a-popover :content="text" placement="left" :overlayStyle="{ maxWidth: '800px' }">
+      <a-popover
+        :content="text"
+        placement="left"
+        :overlayStyle="{ maxWidth: '800px' }"
+      >
         <template #content>
           <div style="max-width: 400px">{{ text }}</div>
         </template>
         <div class="one-row">{{ text }}</div>
       </a-popover>
     </template>
-    <template #intentionality="{ text }"> {{ (text * 100).toFixed(2) }}% </template>
+    <template #intentionality="{ text }">
+      {{ (text * 100).toFixed(2) }}%
+    </template>
   </a-table>
 
   <a-table
@@ -80,14 +97,20 @@
       {{ fmtPlace(record) }}
     </template>
     <template #noteContent="{ text }">
-      <a-popover :content="text" placement="left" :overlayStyle="{ maxWidth: '800px' }">
+      <a-popover
+        :content="text"
+        placement="left"
+        :overlayStyle="{ maxWidth: '800px' }"
+      >
         <template #content>
           <div style="max-width: 400px">{{ text }}</div>
         </template>
         <div class="one-row">{{ text }}</div>
       </a-popover>
     </template>
-    <template #intentionality="{ text }"> {{ (text * 100).toFixed(2) }}% </template>
+    <template #intentionality="{ text }">
+      {{ (text * 100).toFixed(2) }}%
+    </template>
   </a-table>
   <a-pagination
     v-model:current="currentPage"
@@ -103,16 +126,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, watch, ref, PropType } from 'vue';
-import { HandleDay } from '@/types/common';
-import { TrackingService } from '@/api/track';
-import SRadioGroup from '@/components/SRadioGroup';
-import pcCode from '@/utils/pc-code.json';
-import excel from '@/utils/excel';
-import { message } from 'ant-design-vue';
+import { trackData } from "./const";
+import { defineComponent, reactive, toRefs, watch, ref, PropType } from "vue";
+import { HandleDay } from "@/types/common";
+import { TrackingService } from "@/api/track";
+import SRadioGroup from "@/components/SRadioGroup";
+import excel from "@/utils/excel";
+import { message } from "ant-design-vue";
 
 export default defineComponent({
-  name: 'TrackItem',
+  name: "TrackItem",
 
   components: {
     SRadioGroup,
@@ -135,7 +158,7 @@ export default defineComponent({
       keywordId: undefined,
       days: HandleDay.Ninety,
       type: 1,
-      sort: '',
+      sort: "",
       city: [],
     });
 
@@ -145,7 +168,7 @@ export default defineComponent({
 
     function requestList() {
       loading.value = true;
-      const city = searchParams.city[searchParams.city.length - 1] || '';
+      const city = searchParams.city[searchParams.city.length - 1] || "";
       TrackingService.noteList({
         ...searchParams,
         city,
@@ -169,7 +192,7 @@ export default defineComponent({
       },
       {
         deep: true,
-      },
+      }
     );
 
     return {
@@ -184,142 +207,17 @@ export default defineComponent({
   },
 
   data() {
-    return {
-      noteTableColumns: [
-        {
-          title: '作者昵称',
-          dataIndex: 'nickname',
-          width: 150,
-        },
-        {
-          title: '作者小红书ID',
-          dataIndex: 'userCode',
-          width: 150,
-        },
-        {
-          title: '作者地理位置',
-          dataIndex: 'place',
-          slots: { customRender: 'place' },
-          width: 150,
-        },
-        {
-          title: '发布时间',
-          dataIndex: 'notePubDate',
-          width: 150,
-        },
-        {
-          title: '标题',
-          dataIndex: 'noteTitle',
-          width: 200,
-        },
-        {
-          title: '正文',
-          dataIndex: 'noteContent',
-          width: 400,
-          slots: { customRender: 'noteContent' },
-        },
-        {
-          title: '意向度',
-          dataIndex: 'intentionality',
-          width: 100,
-          slots: { customRender: 'intentionality' },
-          sorter: true,
-        },
-      ],
-
-      commentTableColumns: [
-        {
-          title: '评论用户昵称',
-          dataIndex: 'nickname',
-          width: 150,
-        },
-        {
-          title: '评论用户小红书ID',
-          dataIndex: 'userCode',
-          width: 150,
-        },
-        {
-          title: '评论用户地理位置',
-          dataIndex: 'place',
-          slots: { customRender: 'place' },
-          width: 150,
-        },
-        {
-          title: '评论时间',
-          dataIndex: 'commentPubDate',
-          width: 150,
-        },
-        {
-          title: '评论内容',
-          dataIndex: 'commentContent',
-          width: 150,
-        },
-        {
-          title: '评论意向度',
-          dataIndex: 'intentionality',
-          width: 150,
-          slots: { customRender: 'intentionality' },
-          sorter: true,
-        },
-        {
-          title: '评论笔记标题',
-          width: 150,
-          dataIndex: 'noteTitle',
-        },
-        {
-          title: '评论笔记正文',
-          dataIndex: 'noteContent',
-          width: 400,
-          slots: { customRender: 'noteContent' },
-        },
-        {
-          title: '评论笔记创建时间',
-          dataIndex: 'notePubDate',
-          align: 'center',
-          width: 150,
-        },
-      ],
-
-      days: [
-        {
-          value: HandleDay.Seven,
-          label: '近7天',
-        },
-        {
-          value: HandleDay.Thirty,
-          label: '近30天',
-        },
-        {
-          value: HandleDay.Ninety,
-          label: '近90天',
-        },
-      ],
-
-      tableTypes: [
-        {
-          value: 1,
-          label: '意向笔记',
-        },
-        {
-          value: 2,
-          label: '意向评论',
-        },
-      ],
-
-      pcCode,
-
-      exportLoading: false,
-    };
+    return trackData;
   },
   methods: {
     onTableChange(...arg: any) {
       const sortParams = arg[2];
-      if (sortParams?.columnKey !== 'intentionality') return;
+      if (sortParams?.columnKey !== "intentionality") return;
       this.searchParams.sort = sortParams.order
-        ? sortParams.order === 'ascend'
-          ? 'ASC'
-          : 'DESC'
-        : '';
+        ? sortParams.order === "ascend"
+          ? "ASC"
+          : "DESC"
+        : "";
     },
 
     showTotal(total: number) {
@@ -327,15 +225,16 @@ export default defineComponent({
     },
 
     fmtPlace(record: any) {
-      if (!(record.province && record.city && record.county)) return '--';
-      return `${record.province ? record.province + '>' : ''}${
-        record.city && record.city !== record.province ? record.city + '>' : ''
-      }${record.county || ''}`;
+      if (!(record.province && record.city && record.county)) return "--";
+      return `${record.province ? record.province + ">" : ""}${
+        record.city && record.city !== record.province ? record.city + ">" : ""
+      }${record.county || ""}`;
     },
 
     async exportExcel() {
-      if (!this.total) return message.warning('未发现数据！');
-      const city = this.searchParams.city[this.searchParams.city.length - 1] || '';
+      if (!this.total) return message.warning("未发现数据！");
+      const city =
+        this.searchParams.city[this.searchParams.city.length - 1] || "";
       this.exportLoading = true;
       const result = await TrackingService.noteList({
         ...this.searchParams,
@@ -346,47 +245,55 @@ export default defineComponent({
 
       try {
         result.list.forEach((item: any) => {
-          item.authorId = '*****';
+          item.authorId = "*****";
           item.place = this.fmtPlace(item);
-          item.intentionality = (item.intentionality * 100).toFixed(2) + '%';
+          item.intentionality = (item.intentionality * 100).toFixed(2) + "%";
         });
 
         const title =
           this.searchParams.type === 1
-            ? ['作者昵称', '作者小红书ID', '作者地理位置', '发布时间', '标题', '意向度', '正文']
+            ? [
+                "作者昵称",
+                "作者小红书ID",
+                "作者地理位置",
+                "发布时间",
+                "标题",
+                "意向度",
+                "正文",
+              ]
             : [
-                '评论用户昵称',
-                '评论用户小红书ID',
-                '评论用户地理位置',
-                '评论时间',
-                '评论内容',
-                '评论意向度',
-                '评论笔记标题',
-                '评论笔记创建时间',
-                '评论笔记正文',
+                "评论用户昵称",
+                "评论用户小红书ID",
+                "评论用户地理位置",
+                "评论时间",
+                "评论内容",
+                "评论意向度",
+                "评论笔记标题",
+                "评论笔记创建时间",
+                "评论笔记正文",
               ];
 
         const key =
           this.searchParams.type === 1
             ? [
-                'nickname',
-                'userCode',
-                'place',
-                'notePubDate',
-                'noteTitle',
-                'intentionality',
-                'noteContent',
+                "nickname",
+                "userCode",
+                "place",
+                "notePubDate",
+                "noteTitle",
+                "intentionality",
+                "noteContent",
               ]
             : [
-                'nickname',
-                'userCode',
-                'place',
-                'commentPubDate',
-                'commentContent',
-                'intentionality',
-                'noteTitle',
-                'notePubDate',
-                'noteContent',
+                "nickname",
+                "userCode",
+                "place",
+                "commentPubDate",
+                "commentContent",
+                "intentionality",
+                "noteTitle",
+                "notePubDate",
+                "noteContent",
               ];
 
         const excelParams = {
@@ -394,7 +301,7 @@ export default defineComponent({
           key,
           data: result.list,
           autoWidth: true,
-          filename: '线索导出',
+          filename: "线索导出",
         };
 
         excel.export_array_to_excel(excelParams);

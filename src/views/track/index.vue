@@ -11,41 +11,25 @@
   </a-card>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref, watch } from 'vue';
-import { TrackingService, TrackType } from '@/api/track';
-import TrackPane from './components/TrackPane.vue';
+<script lang="ts" setup>
+import { defineComponent, reactive, ref, watch } from "vue";
+import { TrackingService, TrackType } from "@/api/track";
+import TrackPane from "./components/TrackPane.vue";
 
-export default defineComponent({
-  name: 'Track',
-
-  components: {
-    TrackPane,
-  },
-
-  setup() {
-    const trackType = ref(TrackType);
-    const currentType = ref(TrackType.Part);
-    const keywords = reactive({
-      [TrackType.Part]: [],
-      [TrackType.Project]: [],
-    });
-
-    watch(
-      currentType,
-      (type) => {
-        TrackingService.keywords(type).then((list) => {
-          keywords[type] = list;
-        });
-      },
-      { immediate: true },
-    );
-
-    return {
-      trackType,
-      currentType,
-      keywords,
-    };
-  },
+const trackType = ref(TrackType);
+const currentType = ref(TrackType.Part);
+const keywords = reactive({
+  [TrackType.Part]: [],
+  [TrackType.Project]: [],
 });
+
+watch(
+  currentType,
+  (type) => {
+    TrackingService.keywords(type).then((list) => {
+      keywords[type] = list;
+    });
+  },
+  { immediate: true }
+);
 </script>

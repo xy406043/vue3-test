@@ -12,7 +12,7 @@ import { onMounted, onBeforeMount } from 'vue';
                 alt="logo"
                 style="display: inline-block"
               />
-              <span class="title">医美雷达</span>
+              <span class="title">美乐蒂</span>
             </a>
           </div>
           <div class="desc"></div>
@@ -38,20 +38,6 @@ onBeforeMount(() => {
 </script>
 
 <style lang="less" scoped>
-// <script lang="ts">
-// import { defineComponent } from 'vue';
-
-// export default defineComponent({
-//   name: 'UserLayout',
-
-//   onMounted() {
-//     document.body.classList.add('userLayout');
-//   },
-//   onBeforeMount() {
-//     document.body.classList.remove('userLayout');
-//   },
-// });
-// </script>
 
 #userLayout.user-layout-wrapper {
   height: 100%;

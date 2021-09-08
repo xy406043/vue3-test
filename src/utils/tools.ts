@@ -24,4 +24,4 @@ export const setDocumentTitle = function (title: string) {
   }
 };
 
-export const domTitle = '医美雷达';
+export const domTitle = '美乐蒂';

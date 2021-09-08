@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 import BasicLayout from '../layouts/BasicLayout.vue';
-import BlankLayout from '../layouts/BlankLayout.vue';
 import UserLayout from '../layouts/UserLayout.vue';
 import { clearPending } from '../utils/http';
 import NProgress from 'nprogress';
@@ -56,12 +55,6 @@ const routes: RouteRecordRaw[] = [
         name: 'Monitoring',
         meta: { title: '竞争对手监控', icon: 'LineChartOutlined' },
         component: () => import('@/views/monitoring/Overview.vue'),
-      },
-      {
-        path: '/test',
-        name: 'Test',
-        meta: { title: 'wolaiTest', icon: 'woLai' },
-        component: () => import('@/views/test/index.vue'),
       },
       {
         path: '/instReport/:id',

@@ -8,7 +8,12 @@
       :model="formState"
     >
       <a-form-item name="phone">
-        <a-input size="large" type="text" placeholder="账号" v-model:value="formState.phone">
+        <a-input
+          size="large"
+          type="text"
+          placeholder="账号"
+          v-model:value="formState.phone"
+        >
           <template #prefix>
             <UserOutlined :style="{ color: 'rgba(0,0,0,.25)' }" />
           </template>
@@ -16,7 +21,11 @@
       </a-form-item>
 
       <a-form-item name="password">
-        <a-input-password size="large" placeholder="密码" v-model:value="formState.password">
+        <a-input-password
+          size="large"
+          placeholder="密码"
+          v-model:value="formState.password"
+        >
           <template #prefix>
             <LockOutlined :style="{ color: 'rgba(0,0,0,.25)' }" />
           </template>
@@ -39,44 +48,30 @@
   </div>
 </template>
 
-<script lang="ts">
-import { UserActionTypes } from '@/store/modules/user/action-types';
-import { defineComponent, reactive, ref, UnwrapRef } from 'vue';
+<script setup lang="ts">
+import store from "@/store/index";
+import { useRouter } from "vue-router";
+import { UserActionTypes } from "@/store/modules/user/action-types";
+import { reactive, ref, UnwrapRef } from "vue";
+// setup中定义的方法函数都会暴露出去，直接引用 就可以在template中进行访问
 
-export default defineComponent({
-  name: 'UserLogin',
-  setup() {
-    const formLogin = ref();
-    const formState: UnwrapRef<{ phone: string; password: string }> = reactive({
-      phone: '',
-      password: '',
-    });
-    const rules = {
-      phone: { required: true, message: '请输入账号', trigger: 'blur' },
-      password: { required: true, message: '请输入密码', trigger: 'blur' },
-    };
-
-    return {
-      formLogin,
-      formState,
-      rules,
-    };
-  },
-
-  data() {
-    return {
-      autoLogin: true,
-    };
-  },
-
-  methods: {
-    async onSubmit() {
-      await this.formLogin.validate();
-      await this.$store.dispatch(UserActionTypes.LOGIN, this.formState);
-      this.$router.push({ path: '/' });
-    },
-  },
+const autoLogin = ref(true);
+const formLogin = ref();
+const formState: UnwrapRef<{ phone: string; password: string }> = reactive({
+  phone: "",
+  password: "",
 });
+const rules = {
+  phone: { required: true, message: "请输入账号", trigger: "blur" },
+  password: { required: true, message: "请输入密码", trigger: "blur" },
+};
+
+const $router = useRouter();
+const onSubmit = async () => {
+  await formLogin.value.validate();
+  await store.dispatch(UserActionTypes.LOGIN, formState);
+  $router.push({ path: "/" });
+};
 </script>
 
 <style lang="less" scoped>
