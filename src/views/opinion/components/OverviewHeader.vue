@@ -31,56 +31,48 @@
   </a-card>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+<script setup lang="ts">
+import { defineComponent, PropType, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
-export default defineComponent({
-  props: {
-    days: {
-      type: Number,
-      required: true,
-    },
-    instName: {
-      type: String,
-      required: true,
-    },
-    instId: {
-      type: String,
-      required: true,
-    },
-    keyword: {
-      type: String,
-      required: true,
-    },
-    report: {
-      type: Object as PropType<{ [key in string]: any }>,
-      default: () => ({
-        notesNum: '--',
-        authorNum: '--',
-      }),
-    },
+const props = defineProps({
+  days: {
+    type: Number,
+    required: true,
   },
-
-  setup(props) {
-    const router = useRouter();
-    function backSearch() {
-      router.replace({
-        name: 'Opinion',
-        params: {
-          days: props.days,
-          instId: props.instId,
-          keyword: props.keyword,
-        },
-      });
-    }
-    return {
-      backSearch,
-    };
+  instName: {
+    type: String,
+    required: true,
+  },
+  instId: {
+    type: String,
+    required: true,
+  },
+  keyword: {
+    type: String,
+    required: true,
+  },
+  report: {
+    type: Object as PropType<{ [key in string]: any }>,
+    default: () => ({
+      notesNum: "--",
+      authorNum: "--",
+    }),
   },
 });
-</script>
 
+const router = useRouter();
+function backSearch() {
+  router.replace({
+    name: "Opinion",
+    params: {
+      days: props.days,
+      instId: props.instId,
+      keyword: props.keyword,
+    },
+  });
+}
+</script>
 
 <style scoped>
 .header-span {

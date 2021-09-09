@@ -1887,6 +1887,11 @@ vue-demi@*, vue-demi@^0.11.2:
   resolved "https://registry.nlark.com/vue-demi/download/vue-demi-0.11.4.tgz#6101992fe4724cf5634018a16e953f3052e94e2a"
   integrity sha1-YQGZL+RyTPVjQBihbpU/MFLpTio=
 
+vue-draggable-next@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.nlark.com/vue-draggable-next/download/vue-draggable-next-2.0.1.tgz#bb64efb302c7b8e759fd3f21427871789b624c67"
+  integrity sha1-u2TvswLHuOdZ/T8hQnhxeJtiTGc=
+
 vue-echarts@^6.0.0-rc.6:
   version "6.0.0"
   resolved "https://registry.nlark.com/vue-echarts/download/vue-echarts-6.0.0.tgz?cache=0&sync_timestamp=1627907755602&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvue-echarts%2Fdownload%2Fvue-echarts-6.0.0.tgz#480263fc6ed2125b886bb1b7f05bf9273edee552"

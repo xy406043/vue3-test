@@ -39,7 +39,6 @@
 import {
   defineComponent,
   PropType,
-  defineProps,
   computed,
   reactive,
   ref,

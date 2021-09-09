@@ -1,8 +1,8 @@
 import type { App } from 'vue';
-import loadAntdComps from './antd-vue';
-import loadProLayoutComp from './pro-layout';
-import loadIcons from './icon';
-import loadEcharts from './echarts';
+import loadAntdComps from './components/antd-vue';
+import loadProLayoutComp from './components/pro-layout';
+import loadIcons from './components/icon';
+import loadEcharts from './components/echarts';
 
 // 动画库
 import { MotionPlugin } from '@vueuse/motion';

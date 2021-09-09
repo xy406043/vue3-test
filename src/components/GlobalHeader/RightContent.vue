@@ -30,8 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, computed } from "vue";
-import MessageTable from "./MessageTable.vue";
+// TODO为什么此文件汇总 MessageTable 与 AvatraDropdown 组件的引用被注释掉了，
+import { ref, computed } from "vue";
+// import MessageTable from "./MessageTable.vue";
 import { useMessageList } from "@/hooks/common";
 import { timer, switchMap, retryWhen, delay, scan } from "rxjs";
 import { useObservable } from "@vueuse/rxjs";

@@ -6,6 +6,7 @@ declare module 'vue' {
     AvatarDropdown: typeof import('./src/components/GlobalHeader/AvatarDropdown.vue')['default']
     Container: typeof import('./src/components/Chart/Container.vue')['default']
     Index: typeof import('./src/components/SAlert/Index.vue')['default']
+    Inex: typeof import('./src/components/Upload/inex.vue')['default']
     MessageTable: typeof import('./src/components/GlobalHeader/MessageTable.vue')['default']
     RightContent: typeof import('./src/components/GlobalHeader/RightContent.vue')['default']
   }
