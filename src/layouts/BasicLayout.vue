@@ -16,33 +16,33 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, reactive, watchEffect } from "vue";
-import { useRouter } from "vue-router";
-import { getMenuData, clearMenuItem } from "@ant-design-vue/pro-layout";
-import type { RouteContextProps } from "@ant-design-vue/pro-layout";
-import layoutConf from "../configs/layoutConf";
-import RightContent from "@/components/GlobalHeader/RightContent.vue";
-import Logo from "@/assets/logo.png";
+import { reactive, watchEffect, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout'
+import type { RouteContextProps } from '@ant-design-vue/pro-layout'
+import layoutConf from '../configs/layoutConf'
+import RightContent from '@/components/GlobalHeader/RightContent.vue'
+import Logo from '@/assets/logo.png'
 
-const i18n = (t: string) => t;
-const router = useRouter();
-const { menuData } = getMenuData(clearMenuItem(router.getRoutes()));
-const baseState = reactive<Omit<RouteContextProps, "menuData">>({
+const i18n = (t: string) => t
+const router = useRouter()
+const { menuData } = getMenuData(clearMenuItem(router.getRoutes()))
+const baseState = reactive<Omit<RouteContextProps, 'menuData'>>({
   selectedKeys: [],
   openKeys: [],
-  collapsed: false,
-});
+  collapsed: false
+})
 const state = reactive({
   menuData,
   splitMenus: false,
   logo: Logo,
-  ...layoutConf,
-});
+  ...layoutConf
+})
 watchEffect(() => {
   if (router.currentRoute) {
-    baseState.selectedKeys = router.currentRoute.value.matched
-      .concat()
-      .map((r) => r.path);
+    baseState.selectedKeys = router.currentRoute.value.matched.concat().map(r => r.path)
+    console.log('routers', baseState, router.getRoutes())
   }
-});
+})
+onMounted(() => {})
 </script>

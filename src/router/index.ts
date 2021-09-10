@@ -1,84 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
-import BasicLayout from '../layouts/BasicLayout.vue'
-import UserLayout from '../layouts/UserLayout.vue'
 import { clearPending } from '../utils/http'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { domTitle, setDocumentTitle } from '@/utils/tools'
 import LocalStore from 'store2'
+import { Routes } from './localRoutes'
 
 const whiteList = ['UserLogin']
 const loginRoutePath = '/user/login'
 
-const routes: RouteRecordRaw[] = [
-  {
-    path: '/user',
-    component: UserLayout,
-    redirect: '/user/login',
-    children: [
-      {
-        path: '/user/login',
-        name: 'UserLogin',
-        meta: { title: '登录' },
-        component: () => import('@/views/Login.vue')
-      }
-    ]
-  },
-  {
-    path: '/',
-    name: 'index',
-    meta: { title: '' },
-    component: BasicLayout,
-    redirect: '/test',
-    children: [
-      {
-        path: '/opinion',
-        name: 'Opinion',
-        meta: { title: '舆情监控', icon: 'RadarChartOutlined' },
-        component: () => import('@/views/opinion/Overview.vue')
-      },
-      {
-        path: '/opinionReport/:id',
-        name: 'OpinionReport',
-        meta: {
-          title: '舆情监控',
-          icon: 'RadarChartOutlined',
-          hideInMenu: true
-        },
-        component: () => import('@/views/opinion/Report.vue')
-      },
-      {
-        path: '/track',
-        name: 'Track',
-        meta: { title: '线索系统', icon: 'StockOutlined' },
-        component: () => import('@/views/track/index.vue')
-      },
-      {
-        path: '/monitoring',
-        name: 'Monitoring',
-        meta: { title: '竞争对手监控', icon: 'LineChartOutlined' },
-        component: () => import('@/views/monitoring/Overview.vue')
-      },
-      {
-        path: '/test',
-        name: 'test',
-        meta: { title: '测试比价', icon: 'CrownTwoTone' },
-        component: () => import('@/views/test/export.vue')
-      },
-      {
-        path: '/instReport/:id',
-        name: 'InstReport',
-        meta: {
-          title: '机构报告',
-          icon: 'LineChartOutlined',
-          hideInMenu: true
-        },
-        component: () => import('@/views/monitoring/Report.vue')
-      }
-    ]
-  }
-]
+// 配置路由
+const routes: RouteRecordRaw[] = Routes
 
 const routerInstance = createRouter({
   history: createWebHistory(),

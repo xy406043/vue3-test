@@ -64,9 +64,7 @@
   </div>
 </template>
 
-// todo 按文件顺序上传，fileList本身即可（即时接口完成时间不同）
-// todo 拖拽  已使用vue-draggable-next
-// todo 
+// todo 按文件顺序上传，fileList本身即可（即时接口完成时间不同） // todo 拖拽 已使用vue-draggable-next // todo
 <script setup lang="ts">
 // 使用vue3.2 setup script & ant-design 重写上传组件等常规通用组件
 import { VueDraggableNext } from 'vue-draggable-next'
@@ -226,13 +224,7 @@ watch(
   },
   { immediate: true }
 )
-watch(
-  fileList,
-  () => {
-    console.log('文件发生变化', fileList.value)
-  },
-  { immediate: true }
-)
+watch(fileList, () => {}, { immediate: true })
 </script>
 
 <style lang="less" scoped>
