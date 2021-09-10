@@ -64,6 +64,9 @@
   </div>
 </template>
 
+// todo 按文件顺序上传，fileList本身即可（即时接口完成时间不同）
+// todo 拖拽  已使用vue-draggable-next
+// todo 
 <script setup lang="ts">
 // 使用vue3.2 setup script & ant-design 重写上传组件等常规通用组件
 import { VueDraggableNext } from 'vue-draggable-next'
@@ -78,7 +81,6 @@ const { globalProperties: appData, proxy: ctx } = useCurrentInstance()
 const { $ame, $ams } = appData
 // emits 也需要预先定义
 const emits = defineEmits(['update:modelValue'])
-// todo按文件顺序上传，fileList本身即可（即时接口完成时间不同）
 
 const hasInit = ref<boolean>(false)
 const previewVisible = ref<boolean>(false)
@@ -108,8 +110,7 @@ const _beforeUpload = (file: File, files: FileList) => {
     return false
   }
 
-  // TODO 如何解除警告
-  return ctx && ctx.checkFileWH(file)
+  return checkFileWH(file)
 }
 
 const _customRequest = (options: any) => {

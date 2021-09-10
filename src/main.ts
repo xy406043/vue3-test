@@ -3,10 +3,11 @@ import App from './App.vue';
 import setupGlobComps from './plugins';
 import router from './router';
 import store from './store';
-import 'virtual:windi.css';
-// import 'ant-design-vue/dist/antd.less';
 
 const app = createApp(App);
+
+app.config.devtools = true
+app.config.performance = true
 
 setupGlobComps(app);
 
