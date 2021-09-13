@@ -724,6 +724,11 @@ crc32-stream@^4.0.2:
     crc-32 "^1.2.0"
     readable-stream "^3.4.0"
 
+cropperjs@^1.5.12:
+  version "1.5.12"
+  resolved "https://registry.nlark.com/cropperjs/download/cropperjs-1.5.12.tgz#d9c0db2bfb8c0d769d51739e8f916bbc44e10f50"
+  integrity sha1-2cDbK/uMDXadUXOej5FrvEThD1A=
+
 cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npm.taobao.org/cross-spawn/download/cross-spawn-7.0.3.tgz?cache=0&sync_timestamp=1590420971248&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcross-spawn%2Fdownload%2Fcross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
@@ -1215,11 +1220,6 @@ joycon@^3.0.1:
   resolved "https://registry.nlark.com/js-tokens/download/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha1-GSA/tZmR35jjoocFDUZHzerzJJk=
 
-js-zip@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.nlark.com/js-zip/download/js-zip-1.0.1.tgz#c23aa7bd2d32d540d4a3328cc7eaf207439f650b"
-  integrity sha1-wjqnvS0y1UDUozKMx+ryB0OfZQs=
-
 json5@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/json5/download/json5-1.0.1.tgz#779fb0018604fa854eacbf6252180d83543e3dbe"
@@ -1227,7 +1227,7 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-jszip@^3.5.0:
+jszip@^3.5.0, jszip@^3.7.1:
   version "3.7.1"
   resolved "https://registry.nlark.com/jszip/download/jszip-3.7.1.tgz#bd63401221c15625a1228c556ca8a68da6fda3d9"
   integrity sha1-vWNAEiHBViWhIoxVbKimjab9o9k=

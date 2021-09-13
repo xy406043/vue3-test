@@ -20,10 +20,16 @@ export default {
       component: () => import('@/views/File/Upload/index.vue')
     },
     {
-        path: '/fileUse',
-        name: 'FileUse',
-        meta: { title: '文件生成', icon: 'FolderTwoTone' },
-        component: () => import('@/views/File/File/index.vue')
-      }
+      path: '/fileUse',
+      name: 'FileUse',
+      meta: { title: '文件生成', icon: 'FolderTwoTone' },
+      component: () => import('@/views/File/File/index.vue')
+    },
+    {
+      path: '/fileImg',
+      name: 'FileImg',
+      meta: { title: '图片处理', icon: 'FileImageTwoTone' },
+      component: () => import('@/views/File/Img/index.vue')
+    },
   ]
 }

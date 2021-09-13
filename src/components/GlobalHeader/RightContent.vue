@@ -78,23 +78,23 @@ const wrpCls = computed((): any => {
 // 轮询获取未读消息
 const LOOP_TIME = 2000;
 const TRY_TIMES = 3;
-const unViewNum = useObservable(
-  timer(0, LOOP_TIME).pipe(
-    switchMap(OpinionService.unViewNum),
-    retryWhen((err$) =>
-      err$.pipe(
-        scan((errCount, err) => {
-          if (errCount >= TRY_TIMES) {
-            throw err;
-          }
-          return errCount + 1;
-        }, 0),
-        delay(LOOP_TIME)
-      )
-    )
-  )
-);
-
+// const unViewNum = useObservable(
+//   timer(0, LOOP_TIME).pipe(
+//     switchMap(OpinionService.unViewNum),
+//     retryWhen((err$) =>
+//       err$.pipe(
+//         scan((errCount, err) => {
+//           if (errCount >= TRY_TIMES) {
+//             throw err;
+//           }
+//           return errCount + 1;
+//         }, 0),
+//         delay(LOOP_TIME)
+//       )
+//     )
+//   )
+// );
+const unViewNum =ref(0)
 const handleMsgVisible = async () => {
   if (msgVisible.value) {
     msgVisible.value = false;

@@ -9,8 +9,8 @@
       <!-- 列表 -->
       <a-table :data-source="testData" :columns="columns" key="index" :scroll="{ x: 1000 }"> </a-table>
 
-      <!-- 海报初级 -->
-      <div>
+      <!-- 素材处理展示 -->
+      <div v-show="false">
         <div v-for="(item, index) in testData" :key="index" :id="`showText` + item.id" v-html="item.copy"></div>
       </div>
     </a-card>

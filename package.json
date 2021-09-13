@@ -13,6 +13,7 @@
     "@vueuse/rxjs": "^5.2.0",
     "ant-design-vue": "^2.2.6",
     "axios": "^0.21.1",
+    "cropperjs": "^1.5.12",
     "echarts": "^5.1.2",
     "echarts-wordcloud": "^2.0.0",
     "exceljs": "^4.3.0",
