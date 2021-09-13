@@ -7,8 +7,7 @@ import loadEcharts from './components/echarts'
 // 动画库
 import { MotionPlugin } from '@vueuse/motion'
  
-// 工具样式 
-// TODO放在这里能否生效
+// 工具样式类 - 无需自己额外写样式了，在vite中编译也快
 // https://cn.windicss.org/integrations/vite.html
 import 'virtual:windi.css'
 

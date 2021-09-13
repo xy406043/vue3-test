@@ -41,8 +41,13 @@ const state = reactive({
 watchEffect(() => {
   if (router.currentRoute) {
     baseState.selectedKeys = router.currentRoute.value.matched.concat().map(r => r.path)
-    console.log('routers', baseState, router.getRoutes())
   }
 })
 onMounted(() => {})
 </script>
+
+<style lang="less" >
+.ant-pro-sider-logo{
+  mix-blend-mode: color-dodge;
+}
+</style>

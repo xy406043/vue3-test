@@ -13,6 +13,7 @@
   </div>
 </template>
 
+// TODO 通用类型支持
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { OpinionService } from '@/api/opinion'

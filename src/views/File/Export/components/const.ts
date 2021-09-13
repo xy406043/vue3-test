@@ -1,16 +1,16 @@
 export const columns = [
   {
-    title: '作者昵称',
+    title: 'nn',
     dataIndex: 'nickname',
     width: 150
   },
   {
-    title: '作者小红书ID',
+    title: 'ID',
     dataIndex: 'userCode',
     width: 150
   },
   {
-    title: '作者地理位置',
+    title: 's',
     dataIndex: 'place',
     slots: { customRender: 'place' },
     width: 150

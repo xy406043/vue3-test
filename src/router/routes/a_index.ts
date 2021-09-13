@@ -4,6 +4,6 @@ import File from "./File"
 import Zip from './Zip'
 
 export const BasicRoutes = [
-  ...Zip,
+//   ...Zip,
   File
 ]

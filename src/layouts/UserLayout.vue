@@ -12,7 +12,7 @@ import { onMounted, onBeforeMount } from 'vue';
                 alt="logo"
                 style="display: inline-block"
               />
-              <span class="title">美乐蒂</span>
+              <span class="title">CMS</span>
             </a>
           </div>
           <div class="desc"></div>
