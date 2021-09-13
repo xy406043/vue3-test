@@ -3,9 +3,11 @@ import { message } from 'ant-design-vue'
 
 export const submit = () => {
   let file = document.getElementById('uploadfile')
+  file.value = ''
   file?.dispatchEvent(new MouseEvent('click'))
 }
 
+// 选择文件处理
 export const fileChoose = () => {
   let doms: any = document.getElementById('uploadfile')
   let file = doms.files[0]
@@ -16,6 +18,22 @@ export const fileChoose = () => {
     readyToUpload(base64)
   }
   fileReader.readAsDataURL(file)
+}
+
+// 截取视频第一帧
+export const videoFirstFrame = () => {
+  let video = document.createElement('video')
+  video.setAttribute('crossOrigin', 'anonymous')
+  video.src = 'https://easystock.oss-cn-hangzhou.aliyuncs.com/76b1011e01244e94893ccf1965fa9c78.mp4'
+  video.currentTime = 0.2
+  video.addEventListener('loadeddata', function () {
+    let canvas = document.createElement('canvas')
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    canvas.getContext('2d')?.drawImage(video, 0, 0, canvas.width, canvas.height)
+    console.log('截图第一帧', canvas.toDataURL())
+    message.success('截图成功！')
+  })
 }
 
 // 准备转换为File/Blob 进行上传

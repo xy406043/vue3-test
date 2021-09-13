@@ -60,7 +60,6 @@ const props = defineProps({
 
 const emits = defineEmits(['DelAreaBox'])
 
-const search = ref('小黄人')
 // box操作初始点
 const pa = reactive({
   // 拖动
