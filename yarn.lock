@@ -738,6 +738,11 @@ cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+css-doodle@^0.19.2:
+  version "0.19.2"
+  resolved "https://registry.nlark.com/css-doodle/download/css-doodle-0.19.2.tgz#0964e7376674f4c7d12f2408340ee1d978b2eb81"
+  integrity sha1-CWTnN2Z09MfRLyQINA7h2Xiy64E=
+
 cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npm.taobao.org/cssesc/download/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
@@ -885,6 +890,11 @@ exit-on-epipe@~1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/exit-on-epipe/download/exit-on-epipe-1.0.1.tgz#0bdd92e87d5285d267daa8171d0eb06159689692"
   integrity sha1-C92S6H1ShdJn2qgXHQ6wYVlolpI=
+
+fancy-components@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.nlark.com/fancy-components/download/fancy-components-0.0.21.tgz#1ee8bedf45676d18b722aa755ceb57e7a10c4785"
+  integrity sha1-Hui+30VnbRi3Iqp1XOtX56EMR4U=
 
 fast-csv@^4.3.1:
   version "4.3.6"

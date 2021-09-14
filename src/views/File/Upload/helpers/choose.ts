@@ -15,9 +15,47 @@ export const fileChoose = () => {
   fileReader.onload = (e: any) => {
     // 模拟 以base64格式获取到/捕获到 了 图片等文件格式
     let base64 = e?.currentTarget?.result
+    // let base64 = fileReader.result
     readyToUpload(base64)
   }
   fileReader.readAsDataURL(file)
+}
+
+// 网图解析 再重新上传
+export const fetchUpload = () => {
+  // https://juejin.cn/post/7007306583231168526
+  let type = 3
+  switch (type) {
+    // 1. onload && canvas
+    // 2. ajax
+    case 2:
+      // 需引用jquery
+      $.ajax('https://easystock.oss-cn-hangzhou.aliyuncs.com/db9c89b7f4064d9ebb2673580a41a400.png', {
+        xhrFields: { responseType: 'blob' }
+      }).then(blob => {
+        let reader = new FileReader()
+        reader.onload = e => {
+          readyToUpload(reader.result)
+        }
+        reader.readAsDataURL(blob)
+      })
+      break
+
+    // 3. fetch
+    case 3:
+      fetch('https://easystock.oss-cn-hangzhou.aliyuncs.com/db9c89b7f4064d9ebb2673580a41a400.png')
+        .then(res => res.blob())
+        .then(blob => {
+          let reader = new FileReader()
+          reader.onload = e => {
+            readyToUpload(reader.result)
+          }
+          reader.readAsDataURL(blob)
+        })
+      break
+    default:
+      break
+  }
 }
 
 // 截取视频第一帧

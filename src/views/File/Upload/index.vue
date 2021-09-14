@@ -5,6 +5,7 @@
       <SAlert title="基操" />
       <div class="inline-flex flex-col">
         <a-button type="primary" ghost class="mb-10px" @click="submit">模拟base64图片上传</a-button>
+        <a-button type="primary" ghost class="mb-10px" @click="fetchUpload">网图重新上传</a-button>
         <a-button type="primary" ghost class="mb-10px" @click="videoFirstFrame">获取视频第一帧</a-button>
         <input v-show="false" type="file" id="uploadfile" @change="fileChoose" />
       </div>
@@ -18,11 +19,6 @@
         {{ urlList.length ? urlList : '' }}
       </div>
     </div>
-
-    <!-- 原生 -->
-    <!-- <div class="file-con-item">
-      <SAlert title="原生" />
-    </div> -->
   </div>
 </template>
 
@@ -30,7 +26,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import HybridUpload from '@/components/Upload/inex.vue'
-import { submit, fileChoose, videoFirstFrame } from './helpers/choose'
+import { submit, fileChoose, fetchUpload, videoFirstFrame } from './helpers/choose'
 import SAlert from '@/components/SAlert'
 
 const urlList = ref([

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex" hidden="true">
     <avatar-dropdown />
     <div :class="wrpCls" style="padding-right: 8px">
       <a-popover

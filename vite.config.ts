@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import ViteComponents from 'vite-plugin-components';
-import styleImport from 'vite-plugin-style-import';
-import WindiCSS from 'vite-plugin-windicss';
-import { resolve } from 'path';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import ViteComponents from 'vite-plugin-components'
+import styleImport from 'vite-plugin-style-import'
+import WindiCSS from 'vite-plugin-windicss'
+import { resolve } from 'path'
 
 function pathResolve(dir: string) {
-  return resolve(process.cwd(), '.', dir);
+  return resolve(process.cwd(), '.', dir)
 }
 
 export default defineConfig({
@@ -15,13 +15,19 @@ export default defineConfig({
       less: {
         javascriptEnabled: true,
         modifyVars: {
-          '@border-radius-base': '4px',
-        },
-      },
-    },
+          '@border-radius-base': '4px'
+        }
+      }
+    }
   },
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag == 'css-doodle' || tag.startsWith('fc-')
+        }
+      }
+    }),
     WindiCSS(),
     ViteComponents({ globalComponentsDeclaration: true }),
     styleImport({
@@ -29,20 +35,20 @@ export default defineConfig({
         {
           libraryName: 'ant-design-vue',
           esModule: true,
-          resolveStyle: (name) => {
-            return `ant-design-vue/es/${name}/style/index`;
-          },
-        },
-      ],
-    }),
+          resolveStyle: name => {
+            return `ant-design-vue/es/${name}/style/index`
+          }
+        }
+      ]
+    })
   ],
   resolve: {
     alias: [
       // @/xxxx => src/xxxx
       {
         find: '@/',
-        replacement: pathResolve('src') + '/',
-      },
-    ],
-  },
-});
+        replacement: pathResolve('src') + '/'
+      }
+    ]
+  }
+})

@@ -3,7 +3,8 @@ import UserLayout from '../layouts/UserLayout.vue'
 
 import { BasicRoutes } from './routes/a_index'
 
-export const Routes = [
+import type { RouteRecordRaw } from 'vue-router'
+export const Routes: RouteRecordRaw[] = [
   {
     path: '/user',
     component: UserLayout,
