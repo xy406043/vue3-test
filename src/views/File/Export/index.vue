@@ -5,7 +5,7 @@
     <input ref="importFile" id="importFile" type="file" @change="valueChange" v-show="false" />
     <a-button type="primary" class="ml-10px" ghost @click="toImport">fileType上传</a-button>
     <input ref="uploadFile" id="uploadFile" type="file" @change="valueChange2" v-show="false" />
-    <a-button type="primary" class="ml-10px" @click="showImg">其它展示</a-button>
+    <a-button type="primary" class="ml-10px" @click="showImg">总结展示</a-button>
   </a-card>
 
   <!-- 文件导出 -- 特定样式 -->

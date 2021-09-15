@@ -8,6 +8,8 @@
   "dependencies": {
     "@ant-design-vue/pro-layout": "^3.1.0-beta.4",
     "@ant-design/icons-vue": "^6.0.1",
+    "@types/highlight.js": "^10.1.0",
+    "@types/showdown": "^1.9.4",
     "@vueuse/core": "^5.1.4",
     "@vueuse/motion": "^1.5.6",
     "@vueuse/rxjs": "^5.2.0",
@@ -20,7 +22,10 @@
     "exceljs": "^4.3.0",
     "fancy-components": "^0.0.21",
     "file-saver": "^2.0.5",
+    "highlight.js": "^11.2.0",
     "jszip": "^3.7.1",
+    "markdown-loader": "^6.0.0",
+    "marked": "^3.0.1",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
     "qs": "^6.10.1",
@@ -29,6 +34,7 @@
     "store2": "^2.12.0",
     "underscore": "^1.13.1",
     "uuid": "^8.3.2",
+    "vite-plugin-markdown": "^2.0.2",
     "vue-draggable-next": "^2.0.1",
     "vue-echarts": "^6.0.0-rc.6",
     "vue-router": "^4.0.11",
@@ -36,7 +42,8 @@
     "xlsx": "^0.17.0"
   },
   "devDependencies": {
-    "@types/node": "^16.3.3",
+    "@types/marked": "^3.0.1",
+    "@types/node": "^16.9.1",
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^1.2.5",

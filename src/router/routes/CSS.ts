@@ -3,7 +3,7 @@ import RouterView from '../../layouts/RouterView.vue'
 export default {
   path: '/css',
   name: 'Css',
-  meta: { title: '样式', icon: 'FireTwoTone' },
+  meta: { title: '效果', icon: 'FireTwoTone' },
   component: RouterView,
   redirect: '/library',
   children: [

@@ -4,6 +4,7 @@ import ViteComponents from 'vite-plugin-components'
 import styleImport from 'vite-plugin-style-import'
 import WindiCSS from 'vite-plugin-windicss'
 import { resolve } from 'path'
+import mdPlugin = require('vite-plugin-markdown')
 
 function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir)
@@ -40,6 +41,9 @@ export default defineConfig({
           }
         }
       ]
+    }),
+    mdPlugin.plugin({
+      mode: ['html']
     })
   ],
   resolve: {
