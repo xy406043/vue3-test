@@ -1,6 +1,19 @@
 <template>
   <div class="markodwContent" id="markodwContent">
+    <!-- 页面渲染 -->
     <div v-html="compiledMarkdown" ref="helpDocs" id="helpDocs" class="center" @scroll="docsScroll"></div>
+
+    <!-- 文件目录 -->
+    <div class="paths" v-show="mdPreList.length">
+      <h3 class="paths-title text-center">文件目录</h3>
+      <ul class="paths-ul">
+        <li v-for="(item, index) in mdPreList" :key="index">
+          <a href="javascript:;" @click="toPath(item.path)">{{ item.title }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 文档目录 -->
     <div class="category" v-show="navList.length">
       <h3 class="category-title text-center">目录</h3>
       <ul class="category-ul">
@@ -34,8 +47,6 @@ import 'highlight.js/styles/foundation.css'
 import { Catalogue, Nav } from './types/index'
 
 import useCurrentInstance from '@/hooks/useCurrentInstance'
-import { render } from 'nprogress'
-import { type } from 'os'
 const { globalProperties: global, proxy: ctx } = useCurrentInstance()
 
 // marked 配置
@@ -50,6 +61,7 @@ marked.setOptions({
   smartLists: true,
   smartypants: false
 })
+// 忽略hightlight关于 unscapedHTML 的警告
 hljs.configure({ ignoreUnescapedHTML: true })
 
 // TODO v-html只能识别基础的markdown语法 ,无法识别[TOC]、[^footnote]等。 marked 甚至 无法识别 - [ ]，需要自定义生成目录
@@ -61,8 +73,9 @@ hljs.configure({ ignoreUnescapedHTML: true })
 let htmlContent = ref<string>('')
 let helpDocs = ref<any>(null)
 
-let mdList = ref<Catalogue[]>([])
-let mdChooseIndex = ref<number>(0)
+let mdPreList = ref<any>([])
+let mdList = ref<any[]>([])
+let mdChooseIndex = ref<string>('')
 
 let navList = ref<Nav[]>([])
 let activeIndex = ref<number>(0)
@@ -87,7 +100,7 @@ const compiledMarkdown = computed(() => {
 })
 
 // ~~ ================== markdown 加载 ======================================
-// 获取文件内容，渲染到页面上å
+// 获取文件内容，渲染到页面上
 const fetchMDContent = (url: string) => {
   axios
     .get(url)
@@ -116,13 +129,30 @@ const fetchMDContent = (url: string) => {
 
 // ~~ =========== 所有markdown 目录 ==========================================
 // 获取views_md 目录下markdown 文档 ---- 是否获取其子目录下的markdown文档
-const modules = import.meta.glob('/src/views_md/simple/*.md')
 
-Object.keys(modules).forEach((item: any, index: number) => {
-  if (index == 0) {
+const upMoudles = import.meta.glob('/src/views_md/**/*.md')
+console.log('%c 获取md目录', 'color:#2c80c5', upMoudles)
+// 按目录划分拆分出各个文件夹下的md文档，并在页面左侧进行展示
+
+Object.keys(upMoudles).forEach((item: any, index: number) => {
+  let paths = item.replace('/src/views_md/', '').split('/')
+  mdPreList.value.push({
+    path: item,
+    paths,
+    title: paths[paths.length - 1]
+  })
+
+  if ((mdChooseIndex.value && item == mdChooseIndex.value) || index == 0) {
     fetchMDContent(item)
   }
 })
+// let maxLen = mdPreList.value.reduce((acc: number, cur: any) => {
+//   return acc > cur.paths.length ? acc : cur.paths.length
+// }, 0)
+
+const toPath = (item: string) => {
+  fetchMDContent(item)
+}
 
 // ==========================================================================
 
@@ -317,6 +347,26 @@ const findIndex = (arr: any, condition: any) => {
   .markodwContent {
     width: 748px;
     margin: 10px auto;
+  }
+}
+
+// ~~  文件目录部分 CSS样式
+.paths {
+  position: fixed;
+  top: 100px;
+  left: 10px;
+  margin-top: 24px;
+  background: #ffffff;
+  border-radius: 5px;
+  height: 70%;
+  width: 160px;
+  &-title {
+    font-weight: bolder;
+  }
+  &-ul {
+    height: 85%;
+    width: 160px;
+    overflow: scroll;
   }
 }
 
