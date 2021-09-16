@@ -89,6 +89,7 @@ const fetchMDContent = (url: string) => {
     .get(url)
     .then(res => {
       htmlContent.value = res.data
+      updateVditorValue()
       //   htmlContent.value = marked(res.data)
       // 高亮代码
       setTimeout(() => {
@@ -122,12 +123,15 @@ const createAray = () => {
         show: true
       },
       after: () => {
-        vditor.value.setValue(content.value)
+        updateVditorValue()
       }
     }
     vditor.value = new Vditor('khaleesi', options)
     hideVditorTextarea()
   }, 1000)
+}
+const updateVditorValue = () => {
+  vditor.value.setValue(content.value)
 }
 
 // ==========================================================================
@@ -178,12 +182,12 @@ const docsScroll = () => category.value.docsScroll
   padding: 30px;
   margin-bottom: 60px !important;
 }
-@media screen and (min-width: 768px) {
-  .markodwContent {
-    width: 748px;
-    margin: 10px auto;
-  }
-}
+// @media screen and (min-width: 768px) {
+//   .markodwContent {
+//     width: 748px;
+//     margin: 10px auto;
+//   }
+// }
 
 .preview-vditor {
   width: 100%;
