@@ -1,6 +1,7 @@
 <template>
   <div class="markodwContent" id="markodwContent">
     <!-- 页面渲染 -->
+    <div v-show="false" v-html="compiledMarkdown" ref="helpDocs" id="helpDocs" class="center" @scroll="docsScroll"></div>
     <div class="preview-vditor" element-loading-text="正在努力，请稍候...">
       <div id="khaleesi" class="vditor-preview" />
     </div>
@@ -14,9 +15,11 @@
 </template>
 
 <script setup lang="ts">
+
 // vite 中无法使用require
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
+import marked from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/foundation.css'
 import Tree from './comps/tree.vue'
@@ -25,12 +28,34 @@ import Category from './comps/category.vue'
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
 import AboutAryaMd from './comps/test2'
+// import VditorPreview from "vditor/dist/method"
 
 import useCurrentInstance from '@/hooks/useCurrentInstance'
 const { globalProperties: global, proxy: ctx } = useCurrentInstance()
 
+
+// ~~  marked将markdown 转化成 html, 只能识别基础的markdown语法 ,无法识别[TOC]、[^footnote]等 以及无解析 时序图、图标等。 marked 甚至 无法识别 - [ ]，需要自定义生成目录
+// ~~ 于是决定直接 vditor 进行预览 ./index.vue
+
+// marked 配置
+let rendererMD = new marked.Renderer()
+marked.setOptions({
+  renderer: rendererMD,
+  gfm: true,
+  //   tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false
+})
 // 忽略hightlight关于 unscapedHTML 的警告
 hljs.configure({ ignoreUnescapedHTML: true })
+
+
+// vite-plugin-markdown， 可以多种格式进行引用，引用为html 或者组件 直接进行使用，有声明提醒但是不影响。
+// 只是无法使用require, 且import后面必须为简单字符串，不可以是模板字符串 或者 引用变量，从而无法动态引用不同的markdown文档
+// import { html } from '@/views_md/simple/a_p.md'
 
 let stringContent = ref<string>('')
 let helpDocs = ref<any>(null)
@@ -44,8 +69,23 @@ const documentSub = ref<any>(document)
 
 const content = computed(() => stringContent.value)
 
+const compiledMarkdown = computed(() => {
+  let index = 0
+  rendererMD.heading = function (text: string, level: any) {
+    // 依据所需目录进行设置
+    if (level == 4 || level == 3) {
+      return `<h${level} id="data-${index++}">${text}</h${level}>`
+    } else {
+      return `<h${level}>${text}</h${level}>`
+    }
+  }
+  return marked(content.value)
+})
+
 onMounted(() => {
   createCates()
+
+  createAray()
 })
 
 // ~~ ================== markdown 加载 ======================================
@@ -56,6 +96,7 @@ const fetchMDContent = (url: string) => {
     .then(res => {
       stringContent.value = res.data
       updateVditorValue()
+      //   stringContent.value = marked(res.data)
       // 高亮代码
       setTimeout(() => {
         document.querySelectorAll('pre').forEach((item: any) => {
@@ -76,39 +117,26 @@ const fetchMDContent = (url: string) => {
 const vditor = ref<any>(null)
 import { hideVditorTextarea, updateHtmlStyle } from './helpers/vditor'
 const createAray = () => {
-  // 渲染文件方式一 ， 此处setItem即可
-  // localStorage.setItem('vditorkhaleesi', AboutAryaMd)
-
+  localStorage.setItem('vditorkhaleesi', AboutAryaMd)
   updateHtmlStyle()
   setTimeout(async () => {
-
-    // ~~ 渲染方式一  编辑模式
-    // const options = <any>{
-    //   mode: 'sv',
-    //   preview: {
-    //     delay: 1000,
-    //     show: true
-    //   },
-    //   // 渲染文件方式二，此处 设置vditor的值
-    //   after: () => {
-    //     updateVditorValue()
-    //   }
-    // }
-    // vditor.value = new Vditor('khaleesi', options)
-    // hideVditorTextarea()
-
-    // ~~ 渲染方式二   纯预览方式
-    updateVditorValue()
-
+    const options = <any>{
+      // width: '61.8%',
+      mode: 'sv',
+      preview: {
+        delay: 1000,
+        show: true
+      },
+      after: () => {
+        updateVditorValue()
+      }
+    }
+    vditor.value = new Vditor('khaleesi', options)
+    hideVditorTextarea()
   }, 1000)
 }
 const updateVditorValue = () => {
-  // vditor.value.setValue(content.value)
-
-   let dom = <any>document.getElementById('khaleesi')
-    Vditor.preview(dom, content.value, {
-      mode: 'light'
-    })
+  vditor.value.setValue(content.value)
 }
 
 // ==========================================================================
@@ -119,8 +147,7 @@ const updateVditorValue = () => {
 const createCates = () => {
   const upMoudles = import.meta.glob('/src/views_md/**/*.md')
   // console.log('%c 获取md目录', 'color:#2c80c5', upMoudles)
-  // 按目录划分拆分出各个文件夹下的md文档，并在页面左侧进行展示
-  // todo 当前选中渲染的文件在左侧应有不同的样式表现
+  // TODO 按目录划分拆分出各个文件夹下的md文档，并在页面左侧进行展示
 
   Object.keys(upMoudles).forEach((item: any, index: number) => {
     let paths = item.replace('/src/views_md/', '').split('/')
@@ -139,9 +166,13 @@ const createCates = () => {
 
   console.log('cateRee', cateTree, cateTree.value)
   cateTree.value.toCateTree(mdPreList.value)
-
-  createAray()
 }
+
+// ==========================================================================
+
+// ~~ =========== 文章目录相关 ================================================
+
+const docsScroll = () => category.value.docsScroll
 
 // ==========================================================================
 </script>
@@ -151,73 +182,73 @@ const createCates = () => {
 @import './themes/markdown.less';
 
 // vditor 设置的样式
-// @import '../../../assets/styles/style.less';
+@import '../../../assets/styles/style.less';
 
-// .markodwContent {
-//   margin: 0 auto;
-//   padding: 30px;
-//   margin-bottom: 60px !important;
-// }
-// @media screen and (min-width: 768px) {
-//   .markodwContent {
-//     width: 748px;
-//     margin: 10px auto;
-//   }
-// }
+.markodwContent {
+  margin: 0 auto;
+  padding: 30px;
+  margin-bottom: 60px !important;
+}
+@media screen and (min-width: 768px) {
+  .markodwContent {
+    width: 748px;
+    margin: 10px auto;
+  }
+}
 
-// .preview-vditor {
-//   width: 100%;
-//   height: 100%;
-//   min-height: 100vh;
-//   background-color: @white;
-//   .flex-box-center(column);
-//   #khaleesi {
-//     max-width: 748px;
-//     height: 100%;
-//     min-height: 100vh;
-//     margin: 20px auto;
-//     text-align: left;
-//     .vditor-toolbar {
-//       display: none;
-//     }
-//     .vditor-content {
-//       .vditor-sv {
-//         display: none !important;
-//       }
-//     }
-//     .vditor-preview {
-//       padding: 0 20px;
-//       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-//       .vditor-preview__action {
-//         display: none;
-//       }
-//       .vditor-reset {
-//         h1 {
-//           text-align: center;
-//         }
-//       }
-//     }
-//   }
-//   .vditor {
-//     border: 0;
-//   }
-// }
+.preview-vditor {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-color: @white;
+  .flex-box-center(column);
+  #khaleesi {
+    max-width: 748px;
+    height: 100%;
+    min-height: 100vh;
+    margin: 20px auto;
+    text-align: left;
+    .vditor-toolbar {
+      display: none;
+    }
+    .vditor-content {
+      .vditor-sv {
+        display: none !important;
+      }
+    }
+    .vditor-preview {
+      padding: 0 20px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+      .vditor-preview__action {
+        display: none;
+      }
+      .vditor-reset {
+        h1 {
+          text-align: center;
+        }
+      }
+    }
+  }
+  .vditor {
+    border: 0;
+  }
+}
 
-// @media (max-width: 768px) {
-//   .preview-vditor {
-//     #khaleesi {
-//       width: 100% !important;
-//       margin: 0 !important;
-//     }
-//     .vditor-preview {
-//       padding: 0 10px;
-//     }
-//     .vditor-reset {
-//       table {
-//         display: inline-block;
-//         overflow-x: auto;
-//       }
-//     }
-//   }
-// }
+@media (max-width: 768px) {
+  .preview-vditor {
+    #khaleesi {
+      width: 100% !important;
+      margin: 0 !important;
+    }
+    .vditor-preview {
+      padding: 0 10px;
+    }
+    .vditor-reset {
+      table {
+        display: inline-block;
+        overflow-x: auto;
+      }
+    }
+  }
+}
 </style>

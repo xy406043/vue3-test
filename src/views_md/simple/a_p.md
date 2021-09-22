@@ -22,6 +22,22 @@ const fetchMDContent = (url: string) => {
 
 ```
 
+
+``` mermaid
+graph TD;
+  A-->B;
+  A-->C;
+  B-->D;
+  C-->D;
+```
+``` mermaid
+graph LR
+    A[Hard edge] -->|Link text| B(Round edge)
+    B --> C{Decision}
+    C -->|One| D[Result one]
+    C -->|Two| E[Result two] 
+```
+
 标签： Cmd-Markdown
 
 ---
@@ -247,6 +263,17 @@ B-->C: Dashed line
 C->>D: Open arrow
 D-->>A: Dashed open arrow
 ```
+```mermaid
+journey
+    title My working day
+    section Go to work
+      Make tea: 5: Me
+      Go upstairs: 3: Me
+      Do work: 1: Me, Cat
+    section Go home
+      Go downstairs: 5: Me
+      Sit down: 5: Me
+```
 
 #### 更多语法参考：[序列图语法参考](http://bramp.github.io/js-sequence-diagrams/)
 
@@ -254,7 +281,8 @@ D-->>A: Dashed open arrow
 
 甘特图内在思想简单。基本是一条线条图，横轴表示时间，纵轴表示活动（项目），线条表示在整个期间上计划和实际的活动完成情况。它直观地表明任务计划在什么时候进行，及实际进展与计划要求的对比。
 
-```gantt
+```mermaid
+gantt
     title 项目开发流程
     section 项目确定
         需求分析       :a1, 2016-06-22, 3d
@@ -285,7 +313,8 @@ D-->>A: Dashed open arrow
 
 ### 11. Mermaid 序列图
 
-```sequence
+```mermaid
+sequenceDiagram
     Alice->John: Hello John, how are you?
     loop every minute
         John-->Alice: Great!

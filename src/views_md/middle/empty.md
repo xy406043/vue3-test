@@ -1,20 +1,5 @@
-### 消杀开始
+### 预览设置
 
-- [ ] 死啊岁氨酸
+> vditor 语法， 与其它markdown 编辑器语法可能有所不同，需注意
 
-```mermaid
-gantt
-  title 项目开发流程
-  section 项目确定
-    需求分析       :a1, 2019-06-22, 3d
-    可行性报告     :after a1, 5d
-    概念验证       : 5d
-  section 项目实施
-    概要设计      :2019-07-05  , 5d
-    详细设计      :2019-07-08, 10d
-    编码          :2019-07-15, 10d
-    测试          :2019-07-22, 5d
-  section 发布验收
-    发布: 2d
-    验收: 3d
-```
+![制图](https://easystock.oss-cn-hangzhou.aliyuncs.com/20c227165a52440b84d8a31f24e08ca4.png)
