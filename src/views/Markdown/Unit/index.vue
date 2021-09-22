@@ -1,7 +1,7 @@
 <template>
   <div class="markodwContent" id="markodwContent">
     <!-- 页面渲染 -->
-    <div class="preview-vditor" element-loading-text="正在努力，请稍候...">
+    <div class="preview-vditor" element-loading-text="正在努力，请稍候..." @scroll="docsScroll">
       <div id="khaleesi" class="vditor-preview" />
     </div>
 
@@ -9,7 +9,7 @@
     <Tree ref="cateTree" :ctx="ctx"></Tree>
 
     <!-- 文档目录 -->
-    <Category ref="category" :ctx="ctx" :helpDocs="helpDocs" :content="content" :document="documentSub"></Category>
+    <!-- <Category ref="category" :ctx="ctx" :helpDocs="helpDocs" :content="content" :document="documentSub"></Category> -->
   </div>
 </template>
 
@@ -17,6 +17,7 @@
 // vite 中无法使用require
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
+import marked from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/foundation.css'
 import Tree from './comps/tree.vue'
@@ -81,13 +82,15 @@ const createAray = () => {
 
   updateHtmlStyle()
   setTimeout(async () => {
-
     // ~~ 渲染方式一  编辑模式
     // const options = <any>{
     //   mode: 'sv',
     //   preview: {
     //     delay: 1000,
-    //     show: true
+    //     show: true,
+    //     markdown:{
+    //       toc:true,
+    //     }
     //   },
     //   // 渲染文件方式二，此处 设置vditor的值
     //   after: () => {
@@ -99,16 +102,26 @@ const createAray = () => {
 
     // ~~ 渲染方式二   纯预览方式
     updateVditorValue()
-
   }, 1000)
 }
 const updateVditorValue = () => {
   // vditor.value.setValue(content.value)
 
-   let dom = <any>document.getElementById('khaleesi')
-    Vditor.preview(dom, content.value, {
-      mode: 'light'
-    })
+  let dom = <any>document.getElementById('khaleesi')
+  let options = <any>{
+    mode: 'light',
+    anchor: 1,
+    preview: {
+      markdown: {
+        toc: true,
+        fixTermTypo: true, // 自动矫正术语
+        listStyle: true, // 列表添加data-style属性
+        mark: true // 启用mark标记
+        // linkPrefix:"",// 链接强制前缀
+      }
+    }
+  }
+  Vditor.preview(dom, content.value, options)
 }
 
 // ==========================================================================
@@ -132,7 +145,7 @@ const createCates = () => {
       title: paths[paths.length - 1]
     })
 
-    if ((mdChooseIndex.value && item == mdChooseIndex.value) || index == 1) {
+    if ((mdChooseIndex.value && item == mdChooseIndex.value) || index == 0) {
       fetchMDContent(item)
     }
   })
@@ -144,6 +157,10 @@ const createCates = () => {
 }
 
 // ==========================================================================
+
+const docsScroll = () => {
+  // category.value.docsScroll()
+}
 </script>
 
 <style lang="less">
