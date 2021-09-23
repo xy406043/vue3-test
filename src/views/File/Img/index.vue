@@ -1,11 +1,5 @@
 <template>
   <div class="file-img-con">
-    
-    <div class="file-img-item">
-      <SAlert tilte="滚轮" />
-      <Wheel />
-    </div>
-
     <div class="file-img-item">
       <SAlert title="热区图" />
       <HotArea />
@@ -14,6 +8,11 @@
     <div class="file-img-item">
       <SAlert title="裁剪" />
       <Cropper />
+    </div>
+
+    <div class="file-img-item">
+      <SAlert tilte="滚轮" />
+      <Wheel />
     </div>
   </div>
 </template>

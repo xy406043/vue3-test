@@ -55,6 +55,7 @@ const loadImage = () => {
     x = 0
     y = 0
     image.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0) scale(1)'
+
     // 拖拽查看
     drag()
     // 滚轮缩放
@@ -92,7 +93,7 @@ function getImgSize(naturalWidth: number, naturalHeight: number, maxWidth: numbe
       height = naturalHeight
     }
   }
-  return { width: width, height: height }
+  return { width: width / 3, height: height / 3 }
 }
 
 // 拖拽查看
@@ -133,7 +134,6 @@ const drag = () => {
 }
 
 // 滚轮缩放
-// TODO 调整兼容环境
 const wheelZoom = () => {
   container.addEventListener('wheel', function (e: any) {
     console.log('wheel Change', e)
@@ -144,16 +144,11 @@ const wheelZoom = () => {
     }
     // 目标元素是img说明鼠标在img上，以鼠标位置为缩放中心，否则默认以图片中心点为缩放中心
     if (e.target.tagName === 'IMG') {
-      // 纯粹的偏移值 ---> 处理方向
-      const origin = {
-        x: (ratio - 1) * result.width * 0.5,
-        y: (ratio - 1) * result.height * 0.5
-      }
-      // 计算偏移量-- 相对于以图片为中心进行的变化 -- 需保证是以鼠标位置为缩放中心，无论原图位置在哪里，抽离出数学函数方法
-      //   x -= (ratio - 1) * (e.clientX - x) - origin.x
-      //   y -= (ratio - 1) * (e.clientY - y) - origin.y
-      x += origin.x
-      y -= origin.y
+      //  ?? 原来是 clientX 但是由于有header产生异常；转变为offsetX 后，只有一开始可以；后来就不行了,使用layerX 则可以
+      // 计算偏移量  -- 相当于中心点发生变化 -- 需保证是以鼠标位置为缩放中心，无论原图位置在哪里，抽离出数学函数方法
+      // todo 这个偏移值怎么就能够对上的？？
+      x -= (ratio - 1) * (e.layerX - x - result.width / 2)
+      y -= (ratio - 1) * (e.layerY - y - result.height / 2)
     }
     scale *= ratio
     image.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0) scale(' + scale + ')'
