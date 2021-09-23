@@ -53,7 +53,6 @@ const dealWidthCanvas = () => {
     cxt.drawImage(natuImage, 0, 0, width, height)
     // 获取canvas图像的 像素数据 unit8ClampedArray  width * height * 4    (r,g,b,a)
     let imageData = cxt.getImageData(0, 0, width, height).data
-
     tryDealType(imageData, cxt, width, height)
   }
 }
@@ -127,7 +126,8 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
     // 灰色
     case TypesZn.GRAYL:
       loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
-        let average = (r + g + b) / 3
+        // let average = (r + g + b) / 3
+        let average = r * 0.312 + g * 0.654 + b * 0.12
         return {
           r: average,
           g: average,
@@ -173,6 +173,18 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
       })
       break
 
+    // 明亮度
+    case TypesZn.BRIGHTNESS:
+      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
+        let br = 50
+        return {
+          r: br + r > 255 ? 255 : br + r < 0 ? 0 : br + r,
+          g: br + g > 255 ? 255 : br + g < 0 ? 0 : br + g,
+          b: br + g > 255 ? 255 : br + g < 0 ? 0 : br + g
+        }
+      })
+      break
+
     // 熔铸
     case TypesZn.FUSE:
       loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
@@ -196,6 +208,13 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
           b: ((b - g - r) * 3) / 3
         }
       })
+      break
+
+    // TODO 高斯滤镜
+    case TypesZn.BLUR:
+      // https://www.cnblogs.com/fsjohnhuang/p/4127888.html#a2
+      // http://www.ruanyifeng.com/blog/2012/11/gaussian_blur.html
+      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {})
       break
 
     // 默认
@@ -270,6 +289,17 @@ const loopData = (imageData: any, cxt: any, width: number, height: number, fn: a
       output.data[idx + 1] = D.g
       output.data[idx + 2] = D.b
       output.data[idx + 3] = 255
+
+      // gif 图可能需要， 不放置gift图
+      // switch (filterType.value) {
+      //   case TypesZn.GRAYL:
+      //   case TypesZn.FUSE:
+      //   // case TypesZn.FROZEN:
+      //   case TypesZn.REMINISCENCE:
+      //   case TypesZn.GROUPCLASS:
+      //     // 透明度应该根据 rgb 进行 额外处理
+      //     output.data[idx + 3] = D.r + D.g + D.b == 0 ? 0 : 255
+      // }
     }
   }
   cxt.clearRect(0, 0, width, height)
