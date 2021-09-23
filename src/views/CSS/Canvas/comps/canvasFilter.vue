@@ -1,6 +1,7 @@
 <template>
-  <a-radio-group name="radiogroup" :default-value="filterType" @change="filterChange">
-    <a-radio v-for="(value, key) in TypesOptions" :key="value" :value="value">
+  <a-button class="mb-10px" type="primary" @click="changeImg">切换图片</a-button>
+  <a-radio-group name="radiogroup" :default-value="filterType" @change="filterChange" class="mb-10px">
+    <a-radio v-for="(value, key) in TypesZnOptions" :key="value" :value="value">
       {{ value }}
     </a-radio>
   </a-radio-group>
@@ -8,24 +9,24 @@
 </template>
 
 <script setup lang="ts">
-// canvas 从左到右、从右到扫描 图片，复绘为黑白图片
-// 颜色值突变 or 解决黑色  绘制为黑色
-// 源：   https://juejin.cn/post/7010548756487602183#comment
-// 参考： https://segmentfault.com/a/1190000011880686
+// canvas 滤镜效果
 import { ref, reactive, onMounted } from 'vue'
-import { Types } from '../types/filter'
+import { Types, TypesZn, imgList } from '../types/filter'
 
-let filterType = ref<string>('line')
-let TypesOptions = reactive(Types)
-let imageList = reactive<Array<string>>([
-  'https://easystock.oss-cn-hangzhou.aliyuncs.com/4810250c47fb4772a76bef45015dc355.jpeg',
-  'https://easystock.oss-cn-hangzhou.aliyuncs.com/6e057a65fc0b4d95a39d68ab5c12f78a.jpeg',
-  'https://easystock.oss-cn-hangzhou.aliyuncs.com/b45b55857c6848c7ab72c62900815721.jpg'
-])
+let filterType = ref<string>('默认')
+let chooseImgIndex = ref<number>(0)
+let TypesZnOptions = reactive(TypesZn)
+let imageList = reactive<Array<string>>(imgList)
 
 onMounted(() => {
   dealWidthCanvas()
 })
+
+const changeImg = () => {
+  let length = imageList.length
+  chooseImgIndex.value = chooseImgIndex.value + 1 >= length ? 0 : chooseImgIndex.value + 1
+  dealWidthCanvas()
+}
 
 const filterChange = (el: any) => {
   filterType.value = el.target.value
@@ -37,7 +38,7 @@ const dealWidthCanvas = () => {
   let cxt = myCanvas.getContext('2d')
   const natuImage = new Image()
 
-  natuImage.src = imageList[2]
+  natuImage.src = imageList[chooseImgIndex.value]
   natuImage.crossOrigin = 'anonymous'
   natuImage.onload = (ev: any) => {
     let { height: oh, width: ow } = ev.path[0]
@@ -60,12 +61,12 @@ const dealWidthCanvas = () => {
 const tryDealType = (imageData: any, cxt: any, width: number, height: number) => {
   switch (filterType.value) {
     // 线条
-    case Types.LINE:
+    case TypesZn.LINE:
       tryBlackWhite(imageData, cxt, width, height)
       break
 
     // 毛玻璃
-    case Types.GROUPCLASS:
+    case TypesZn.GROUPCLASS:
       loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
         let rand = Math.floor(Math.random() * 10) % 5 // 最后这个参数越大，效果越离谱
         let key2 = idx + rand * 4 * (width + 1)
@@ -79,7 +80,7 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
       break
 
     // 连环画
-    case Types.PICTURESTORY:
+    case TypesZn.PICTURESTORY:
       loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
         return {
           r: (Math.abs(g - b + g + r) * r) / 256,
@@ -89,25 +90,42 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
       })
       break
 
-    case Types.RELIEVO: // 浮雕滤镜（基于当前像素的前一个像素RGB 值与它的后一个像素的RGB之差再加上128）
-      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number, bidx: number) => {
+    // 浮雕滤镜 凹（基于当前像素的前一个像素RGB 值与它的后一个像素的RGB之差再加上128）
+    case TypesZn.RELIEVO:
+      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number, bidx: number, aidx: number) => {
+        // 把相邻像素的同个通道进行差值运算，再加上中性灰的色值
+        r = Math.abs(imageData[bidx] - imageData[idx] + 128)
+        g = Math.abs(imageData[bidx + 1] - imageData[idx + 1] + 128)
+        b = Math.abs(imageData[bidx + 2] - imageData[idx + 2] + 128)
+        // 把结果通道的值进行求和并按券平均作为最终通道的值
+        let val = r * 0.3 + g * 0.59 + b * 0.11
         return {
-          r: imageData[midx] - imageData[idx] + 128,
-          g: imageData[midx + 1] - imageData[idx + 1] + 128,
-          b: imageData[midx + 2] - imageData[idx + 2] + 128
+          r: val,
+          g: val,
+          b: val
         }
       })
       break
-    case Types.SCULPTURE: // 雕刻滤镜（基于当前像素的后一个像素RGB 值与它的前一个像素的RGB之差再加上128）
-      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number, bidx: number) => {
+
+    // 雕刻滤镜 凸（基于当前像素的后一个像素RGB 值与它的前一个像素的RGB之差再加上128）
+    case TypesZn.SCULPTURE:
+      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number, bidx: number, aidx: number) => {
+        // 把相邻像素的同个通道进行差值运算，再加上中性灰的色值
+        r = Math.abs(imageData[aidx] - imageData[idx] + 128)
+        g = Math.abs(imageData[aidx + 1] - imageData[idx + 1] + 128)
+        b = Math.abs(imageData[aidx + 2] - imageData[idx + 2] + 128)
+        // 把结果通道的值进行求和并按券平均作为最终通道的值
+        let val = r * 0.3 + g * 0.59 + b * 0.11
         return {
-          r: -imageData[midx] + imageData[idx] + 128,
-          g: -imageData[midx + 1] + imageData[idx + 1] + 128,
-          b: -imageData[midx + 2] + imageData[idx + 2] + 128
+          r: val,
+          g: val,
+          b: val
         }
       })
       break
-    case Types.GRAYL: // 灰色
+
+    // 灰色
+    case TypesZn.GRAYL:
       loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
         let average = (r + g + b) / 3
         return {
@@ -117,7 +135,9 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
         }
       })
       break
-    case Types.REMINISCENCE: //怀旧
+
+    //怀旧
+    case TypesZn.REMINISCENCE:
       loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
         r = 0.393 * r + 0.769 * g + 0.19 * b
         b = 0.349 * r + 0.686 * g + 0.168 * b
@@ -131,7 +151,7 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
       break
 
     // 黑白
-    case Types.BW:
+    case TypesZn.BW:
       loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
         let calcGray = 0.299 * r + 0.587 * g + 0.114 * b
         return {
@@ -140,7 +160,42 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
           b: calcGray > 100 ? 255 : 0
         }
       })
+      break
 
+    // 底片
+    case TypesZn.FILM:
+      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
+        return {
+          r: 255 - r,
+          g: 255 - g,
+          b: 255 - b
+        }
+      })
+      break
+
+    // 熔铸
+    case TypesZn.FUSE:
+      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
+        return {
+          r: (r * 128) / (g + b + 1),
+          g: (g * 128) / (r + b + 2),
+          b: (b * 128) / (g + r + 3)
+        }
+      })
+      break
+
+    // 冰冻
+    case TypesZn.FROZEN:
+      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {
+        return {
+          // r: ((r - g - b) * 3) / 2,
+          // g: ((g - r - b) * 3) / 2,
+          // b: ((b - g - r) * 3) / 2
+          r: ((r - g - b) * 3) / 1,
+          g: ((g - r - b) * 3) / 2,
+          b: ((b - g - r) * 3) / 3
+        }
+      })
       break
 
     // 默认
@@ -153,6 +208,10 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
 }
 
 // 处理点绘滤镜
+// canvas 从左到右、从右到扫描 图片，复绘为黑白图片
+// 颜色值突变 or 解决黑色  绘制为黑色
+// 源：   https://juejin.cn/post/7010548756487602183#comment
+// 参考： https://segmentfault.com/a/1190000011880686
 const tryBlackWhite = (imageData: any, cxt: any, width: number, height: number) => {
   cxt.fillStyle = '#ffffff'
   cxt.fillRect(0, 0, width, height)
@@ -197,8 +256,8 @@ const loopData = (imageData: any, cxt: any, width: number, height: number, fn: a
   for (let h = 0; h < height; h += 1) {
     for (let w = 0; w < width; w += 1) {
       let idx = (width * h + w) * 4 // 当前索引
-      let bidx = (width * h + (w - 1)) * 4 // 前一个索引
-      let aidx = (width * h + (w + 1)) * 4 // 后一个索引
+      let bidx = (width * h + (w - 1 < 0 ? 0 : w - 1)) * 4 // 前一个索引
+      let aidx = (width * h + (w + 1 > width ? width : w + 1)) * 4 // 后一个索引
       let midx = (width * h + (width - w)) * 4 // 跟当前镜像位置索引
 
       let r = imageData[idx]
@@ -213,6 +272,7 @@ const loopData = (imageData: any, cxt: any, width: number, height: number, fn: a
       output.data[idx + 3] = 255
     }
   }
+  cxt.clearRect(0, 0, width, height)
   cxt.putImageData(output, 0, 0)
 }
 </script>

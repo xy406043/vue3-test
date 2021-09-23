@@ -1,15 +1,21 @@
 <template>
   <div class="css-canvas-con">
     <div class="css-canvas-item">
-      <SAlert title="扫描绘制" />
+      <SAlert title="canvas滤镜" />
       <Scan />
+    </div>
+
+    <div class="css-canvas-item">
+      <SAlert title="css滤镜" />
+      <CSSScan />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import SAlert from '@/components/SAlert'
-import Scan from './comps/scan.vue'
+import Scan from './comps/canvasFilter.vue'
+import CSSScan from './comps/cssFilter.vue'
 </script>
 
 <style lang="less" scoped>
