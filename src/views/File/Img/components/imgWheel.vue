@@ -1,10 +1,10 @@
 <template>
   <div>
-    <button @click="toReset" class="test-btn">重置</button>
-    <div class="container">
-      <img id="image" alt="" />
+    <!-- <button @click="toReset" class="test-btn">重置</button> -->
+    <div class="imgWheelcontainer">
+      <img id="imgWheelimage" alt="" />
     </div>
-    <div class="log"></div>
+    <div class="imgWheellog"></div>
   </div>
 </template>
 
@@ -15,9 +15,9 @@ import { ref, reactive, onMounted } from 'vue'
 // TODO wheel 的scale 变化 会根据原位置进行变化， html只图片没有问题。此处由header并且会滚动，则不行
 
 // 获取dom
-let container = <any>document.querySelector('.container')
-let image = <any>document.getElementById('image')
-let log = <any>document.querySelector('.log')
+let container = <any>document.querySelector('.imgWheelcontainer')
+let image = <any>document.getElementById('imgWheelimage')
+let log = <any>document.querySelector('.imgWheellog')
 let outer = <any>document.getElementsByClassName('ant-layout-content ant-pro-basicLayout-content ant-pro-basicLayout-has-header')[0]
 
 // 全局变量
@@ -31,9 +31,9 @@ let result: any,
   lastPointermove = { x: 0, y: 0 } // 用于计算diff
 
 onMounted(() => {
-  container = <any>document.querySelector('.container')
-  image = <any>document.getElementById('image')
-  log = <any>document.querySelector('.log')
+  container = <any>document.querySelector('.imgWheelcontainer')
+  image = <any>document.getElementById('imgWheelimage')
+  log = <any>document.querySelector('.imgWheellog')
   outer = <any>document.getElementsByClassName('ant-layout-content ant-pro-basicLayout-content ant-pro-basicLayout-has-header')[0]
 
   loadImage()
@@ -93,6 +93,7 @@ function getImgSize(naturalWidth: number, naturalHeight: number, maxWidth: numbe
       height = naturalHeight
     }
   }
+  //   return { width: width, height: height }
   return { width: width / 3, height: height / 3 }
 }
 
@@ -115,7 +116,7 @@ const drag = () => {
       x += diff.x
       y += diff.y
       image.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0) scale(' + scale + ')'
-      log.innerHTML = `x = ${x.toFixed(0)}<br>y = ${y.toFixed(0)}<br>scale = ${scale.toFixed(5)}`
+      //   log.innerHTML = `x = ${x.toFixed(0)}<br>y = ${y.toFixed(0)}<br>scale = ${scale.toFixed(5)}`
     }
     e.preventDefault()
   })
@@ -135,13 +136,17 @@ const drag = () => {
 
 // 滚轮缩放
 const wheelZoom = () => {
+  // TODO 此组件处于滚动条后位置， 监听到的wheel 位置错误
   container.addEventListener('wheel', function (e: any) {
+    e.stopPropagation()
+    e.preventDefault()
     console.log('wheel Change', e)
     let ratio = 1.1
     // 缩小
     if (e.deltaY > 0) {
       ratio = 0.9
     }
+    if (scale * ratio >= 3 || scale * ratio <= 0.2) return
     // 目标元素是img说明鼠标在img上，以鼠标位置为缩放中心，否则默认以图片中心点为缩放中心
     if (e.target.tagName === 'IMG') {
       //  ?? 原来是 clientX 但是由于有header产生异常；转变为offsetX 后，只有一开始可以；后来就不行了,使用layerX 则可以
@@ -151,15 +156,15 @@ const wheelZoom = () => {
       y -= (ratio - 1) * (e.layerY - y - result.height / 2)
     }
     scale *= ratio
+
     image.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0) scale(' + scale + ')'
     // log.innerHTML = `x = ${x.toFixed(0)}<br>y = ${y.toFixed(0)}<br>scale = ${scale.toFixed(5)}`
-    e.preventDefault()
   })
 }
 </script>
 
 <style lang="less">
-.test-btn {
-  position: absolute;
+.container {
+  max-width: 800px;
 }
 </style>
