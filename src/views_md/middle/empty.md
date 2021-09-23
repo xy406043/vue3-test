@@ -72,3 +72,5 @@ $$\begin{bmatrix}
 {a_{m1}}&{a_{m2}}&{\cdots}&{a_{mn}}\\
 \end{bmatrix}$$
 
+$$\\frac{a}{1-a^2}$$
+

@@ -1,3 +1,4 @@
+
 import RouterView from '../../layouts/RouterView.vue'
 
 export default {
@@ -12,6 +13,12 @@ export default {
       name: 'Library',
       meta: { title: '库', icon: 'FolderTwoTone' },
       component: () => import('@/views/CSS/Library/index.vue')
+    },
+    {
+      path: '/Canvas',
+      name: 'Canvas',
+      meta: { title: 'canvas', icon: 'FolderTwoTone' },
+      component: () => import('@/views/CSS/Canvas/index.vue')
     },
   ]
 }

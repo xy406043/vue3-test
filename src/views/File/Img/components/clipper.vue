@@ -90,7 +90,7 @@ const crop = () => {
 }
 
 onMounted(async () => {
-  const dom = document.getElementById('cropper12')
+  const dom = <any>document.getElementById('cropper12')
   cropper.value = await new Cropper(dom, {
     preview: `#cropper_preview12`,
     checkCrossOrigin: true

@@ -64,7 +64,7 @@ const pa = reactive<any>({
   imgHeight: 0
 })
 
-const hotareaImg = ref(null)
+const hotareaImg = ref<any>(null)
 
 onMounted(() => {
   pa.areaData = [

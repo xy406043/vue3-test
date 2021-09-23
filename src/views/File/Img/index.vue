@@ -1,12 +1,16 @@
 <template>
   <div class="file-img-con">
-    <!-- 热区图 -->
+    
+    <div class="file-img-item">
+      <SAlert tilte="滚轮" />
+      <Wheel />
+    </div>
+
     <div class="file-img-item">
       <SAlert title="热区图" />
       <HotArea />
     </div>
 
-    <!-- 裁剪 -->
     <div class="file-img-item">
       <SAlert title="裁剪" />
       <Cropper />
@@ -19,6 +23,7 @@ import { ref, onMounted } from 'vue'
 import SAlert from '@/components/SAlert'
 import HotArea from './components/hotArea.vue'
 import Cropper from './components/clipper.vue'
+import Wheel from './components/imgWheel.vue'
 
 onMounted(() => {})
 </script>
