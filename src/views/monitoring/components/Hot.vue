@@ -14,7 +14,6 @@ import { defineComponent, reactive, ref, toRefs, watch } from 'vue';
 import ShareChart from '@/components/ShareChart';
 import WordCloudChart from '@/components/Chart/Wordcloud';
 import SplitLine from '@/components/SplitLine';
-import SAlert from '@/components/SAlert/index';
 import useShareChartData from '@/hooks/useShareChartData';
 import { NoteCategory } from '@/types/common';
 
@@ -23,7 +22,6 @@ export default defineComponent({
     ShareChart,
     WordCloudChart,
     SplitLine,
-    SAlert,
   },
   props: {
     sourceData: {

@@ -60,7 +60,6 @@
 import { defineComponent, reactive, ref, toRefs, watch } from "vue";
 import ShareChart from "@/components/ShareChart";
 import SplitLine from "@/components/SplitLine";
-import SAlert from "@/components/SAlert/index";
 import BarChart from "@/components/Chart/BarChart";
 import SRadioGroup from "@/components/SRadioGroup";
 import useShareChartData from "@/hooks/useShareChartData";

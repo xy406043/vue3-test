@@ -32,7 +32,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import SAlert from '@/components/SAlert'
 </script>
 
 <style lang="less" scoped>

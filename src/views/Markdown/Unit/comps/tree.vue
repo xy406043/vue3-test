@@ -72,7 +72,7 @@ defineExpose({
 })
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 // ~~  文件目录部分 CSS样式
 .paths {
   position: fixed;

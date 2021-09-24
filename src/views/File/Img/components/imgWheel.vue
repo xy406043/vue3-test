@@ -163,7 +163,7 @@ const wheelZoom = () => {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .container {
   max-width: 800px;
 }

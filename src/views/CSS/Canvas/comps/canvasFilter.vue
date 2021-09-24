@@ -396,4 +396,4 @@ const gaussBlur = (imageBase: any, cxt: any) => {
 }
 </script>
 
-<style lang="ts"></style>
+<style lang="less" scoped></style>

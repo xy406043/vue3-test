@@ -28,7 +28,6 @@ import WordCloudChart from '@/components/Chart/Wordcloud';
 import SplitLine from '@/components/SplitLine/index';
 import SRadioGroup from '@/components/SRadioGroup';
 import { isEmptyObj } from '@/utils/tools';
-import SAlert from '@/components/SAlert/index';
 import useShareChartData from '@/hooks/useShareChartData';
 import { NoteCategory } from '@/types/common';
 
@@ -53,7 +52,6 @@ export default defineComponent({
     WordCloudChart,
     SplitLine,
     SRadioGroup,
-    SAlert,
   },
 
   props: {

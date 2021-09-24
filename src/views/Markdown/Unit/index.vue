@@ -66,7 +66,7 @@ const fetchMDContent = (url: string) => {
 
       setTimeout(() => {
         // 需要content更新完毕后再进行生成目录操作
-        category.value.createCategory()
+        category.value && category.value.createCategory()
       }, 300)
     })
     .catch(err => {

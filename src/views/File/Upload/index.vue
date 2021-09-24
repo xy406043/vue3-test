@@ -27,7 +27,6 @@
 import { ref, watch } from 'vue'
 import HybridUpload from '@/components/Upload/inex.vue'
 import { submit, fileChoose, fetchUpload, videoFirstFrame } from './helpers/choose'
-import SAlert from '@/components/SAlert'
 
 const urlList = ref([
   {

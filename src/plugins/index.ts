@@ -1,4 +1,5 @@
 import type { App } from 'vue'
+import loadGlobalComps from "./components/index.ts"
 import loadAntdComps from './components/antd-vue'
 import loadProLayoutComp from './components/pro-layout'
 import loadIcons from './components/icon'
@@ -20,6 +21,7 @@ import 'css-doodle';
  * @param app
  */
 export default function setupGlobComps(app: App) {
+  loadGlobalComps(app)
   loadProLayoutComp(app)
   loadAntdComps(app)
   loadIcons(app)

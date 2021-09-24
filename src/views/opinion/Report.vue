@@ -27,7 +27,6 @@ import { defineComponent, ref, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import ShareChart from "@/components/ShareChart";
 import SplitLine from "@/components/SplitLine";
-import SAlert from "../../components/SAlert/index";
 import OverviewHeader from "./components/OverviewHeader.vue";
 import OverviewSentimentItem from "./components/OverviewSentimentItem.vue";
 import OverviewFansItem from "./components/OverviewFansItem.vue";

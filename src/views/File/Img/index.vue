@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import SAlert from '@/components/SAlert'
 import HotArea from './components/hotArea.vue'
 import Cropper from './components/clipper.vue'
 import Wheel from './components/imgWheel.vue'

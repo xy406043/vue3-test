@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import SAlert from '@/components/SAlert'
 import Scan from './comps/canvasFilter.vue'
 import CssFilter from './comps/cssFilter.vue'
 </script>
