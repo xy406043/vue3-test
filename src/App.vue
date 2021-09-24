@@ -24,7 +24,7 @@ export default defineComponent({
 }
 </style>
 
-<style lang="less" >
+<style lang="less">
 html {
   margin: 0;
   padding: 0;

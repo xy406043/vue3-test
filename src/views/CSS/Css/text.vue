@@ -2,13 +2,13 @@
   <div class="xy-con">
     <div class="xy-item">
       <SAlert title="文字描边"></SAlert>
-      <TextStroke />
+      <TextTESTStroke />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import TextStroke from './comps/text-stroke.vue'
+import TextTESTStroke from './comps/text-test-stroke.vue'
 </script>
 
 <style lang="less" scoped>
