@@ -1,25 +1,35 @@
 <template>
   <a-button class="mb-10px" type="primary" @click="changeImg">切换图片</a-button>
+
+  <div class="flex">
+    <span class="mr-10px">链接：</span>
+    <a class="mr-10px" href="https://github.com/chokcoco/iCSS">icss</a>
+    <a class="mr-10px" href="https://angrytools.com/">anrytools </a>
+  </div>
+
+  <div></div>
   <a-radio-group name="radiogroup" :default-value="filterType" @change="filterChange" class="mb-10px">
-    <a-radio v-for="(value, key) in TypesZnOptions" :key="value" :value="value">
+    <a-radio v-for="(value, key) in TypesZnCssOptions" :key="value" :value="value">
       {{ value }}
     </a-radio>
   </a-radio-group>
+
   <img :src="showImg" />
 </template>
 
 <script setup lang="ts">
 // CSS 滤镜效果
 // 参考：  https://www.cnblogs.com/fsjohnhuang/p/4127888.html#a2
+import { file } from 'jszip'
 import { ref, reactive, onMounted } from 'vue'
-import { Types, TypesZn, imgList } from '../types/filter'
+import { Types, TypesZnCss, imgList } from '../types/filter'
 
 const showImg = ref<string>('')
 const chooseImgIndex = ref<number>(0)
 const filter = ref<string>('') // img Fiilter 效果
 
 let filterType = ref<string>('默认')
-let TypesZnOptions = reactive(TypesZn)
+let TypesZnCssOptions = reactive(TypesZnCss)
 
 onMounted(() => {
   showImg.value = imgList[chooseImgIndex.value]
@@ -39,27 +49,40 @@ const filterChange = (el: any) => {
 
 const dealWidthCssFilter = () => {
   switch (filterType.value) {
-    case TypesZn.GRAYL:
+    case TypesZnCss.GRAYL:
       filter.value = 'grayScale(1)'
       break
 
-    case TypesZn.FILM:
-      //   filter.value = 'hue-rotate(180deg)' // rgb 为0时，不会变化
+    case TypesZnCss.FILM:
       filter.value = 'invert()'
       break
-    case TypesZn.BRIGHTNESS:
+
+    case TypesZnCss.BRIGHTNESS:
       filter.value = 'brightness(1.5)'
       break
 
     // 怀旧
     case Types.REMINISCENCE:
-      filter.value = ' sepia(100%)'
+      filter.value = 'sepia(100%)'
       break
 
-    case TypesZn.BLUR:
-      filter.value = 'blur(1px)'
+    case TypesZnCss.BLUR:
+      filter.value = 'blur(3px)'
       break
-    case TypesZn.INIT:
+
+    case TypesZnCss.HUEROTATE:
+      filter.value = 'hue-rotate(180deg)' // rgb 为0时，不会变化
+      break
+
+    case TypesZnCss.SHADOW:
+      filter.value = 'drop-shadow(1px 2px 3px #333)'
+      break
+
+    case TypesZnCss.CONTRACT:
+      filter.value = 'contrast(2)'
+      break
+
+    case TypesZnCss.INIT:
     default:
       filter.value = ''
       break

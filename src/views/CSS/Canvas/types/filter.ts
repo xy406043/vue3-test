@@ -40,5 +40,25 @@ export const TypesZn = {
   REMINISCENCE: '怀旧',
   FUSE: '熔铸',
   FROZEN: '冰冻',
-  BLUR:"高思滤镜"
+  BLUR:"高斯模糊"
+}
+
+export const TypesZnCss = {
+  INIT: '默认',
+  // BW: '黑白',
+  // LINE: '线条',
+  GRAYL: '灰色',
+  FILM: '底片',
+  // GROUPCLASS: '毛玻璃',
+  // PICTURESTORY: '连环画',
+  // RELIEVO: '浮雕',
+  // SCULPTURE: '雕刻',
+  BRIGHTNESS: '明亮',
+  // REMINISCENCE: '怀旧',
+  // FUSE: '熔铸',
+  // FROZEN: '冰冻',
+  BLUR:"高斯模糊",
+  HUEROTATE:"色相旋转",
+  SHADOW:"阴影",
+  CONTRACT:"对比度"
 }

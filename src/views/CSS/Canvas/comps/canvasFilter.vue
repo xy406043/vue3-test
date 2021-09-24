@@ -52,12 +52,14 @@ const dealWidthCanvas = () => {
     cxt.clearRect(0, 0, width, height)
     cxt.drawImage(natuImage, 0, 0, width, height)
     // 获取canvas图像的 像素数据 unit8ClampedArray  width * height * 4    (r,g,b,a)
-    let imageData = cxt.getImageData(0, 0, width, height).data
-    tryDealType(imageData, cxt, width, height)
+    let imageBase = cxt.getImageData(0, 0, width, height)
+    let imageData = imageBase.data
+
+    tryDealType(imageData, cxt, width, height, imageBase)
   }
 }
 
-const tryDealType = (imageData: any, cxt: any, width: number, height: number) => {
+const tryDealType = (imageData: any, cxt: any, width: number, height: number, imageBase: any) => {
   switch (filterType.value) {
     // 线条
     case TypesZn.LINE:
@@ -212,9 +214,15 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
 
     // TODO 高斯滤镜
     case TypesZn.BLUR:
+      // ~~ 方式一
       // https://www.cnblogs.com/fsjohnhuang/p/4127888.html#a2
       // http://www.ruanyifeng.com/blog/2012/11/gaussian_blur.html
-      loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {})
+      // loopData(imageData, cxt, width, height, (r: number, g: number, b: number, midx: number, idx: number) => {})
+
+      // ~~ 方式二
+
+      let output = gaussBlur(imageBase, cxt)
+      cxt.putImageData(output, 0, 0)
       break
 
     // 默认
@@ -224,6 +232,43 @@ const tryDealType = (imageData: any, cxt: any, width: number, height: number) =>
       //   cxt.putImageData(some, 0, 0)
       break
   }
+}
+
+// 通用滤镜处理方法
+const loopData = (imageData: any, cxt: any, width: number, height: number, fn: any) => {
+  let output = cxt.createImageData(width, height)
+  for (let h = 0; h < height; h += 1) {
+    for (let w = 0; w < width; w += 1) {
+      let idx = (width * h + w) * 4 // 当前索引
+      let bidx = (width * h + (w - 1 < 0 ? 0 : w - 1)) * 4 // 前一个索引
+      let aidx = (width * h + (w + 1 > width ? width : w + 1)) * 4 // 后一个索引
+      let midx = (width * h + (width - w)) * 4 // 跟当前镜像位置索引
+
+      let r = imageData[idx]
+      let g = imageData[idx + 1]
+      let b = imageData[idx + 2]
+
+      let D = fn(r, g, b, midx, idx, bidx, aidx)
+
+      output.data[idx] = D.r
+      output.data[idx + 1] = D.g
+      output.data[idx + 2] = D.b
+      output.data[idx + 3] = 255
+
+      // gif 图可能需要， 不放置gift图
+      // switch (filterType.value) {
+      //   case TypesZn.GRAYL:
+      //   case TypesZn.FUSE:
+      //   // case TypesZn.FROZEN:
+      //   case TypesZn.REMINISCENCE:
+      //   case TypesZn.GROUPCLASS:
+      //     // 透明度应该根据 rgb 进行 额外处理
+      //     output.data[idx + 3] = D.r + D.g + D.b == 0 ? 0 : 255
+      // }
+    }
+  }
+  cxt.clearRect(0, 0, width, height)
+  cxt.putImageData(output, 0, 0)
 }
 
 // 处理点绘滤镜
@@ -269,41 +314,85 @@ const tryBlackWhite = (imageData: any, cxt: any, width: number, height: number) 
   }
 }
 
-// 通用滤镜处理方法
-const loopData = (imageData: any, cxt: any, width: number, height: number, fn: any) => {
-  let output = cxt.createImageData(width, height)
-  for (let h = 0; h < height; h += 1) {
-    for (let w = 0; w < width; w += 1) {
-      let idx = (width * h + w) * 4 // 当前索引
-      let bidx = (width * h + (w - 1 < 0 ? 0 : w - 1)) * 4 // 前一个索引
-      let aidx = (width * h + (w + 1 > width ? width : w + 1)) * 4 // 后一个索引
-      let midx = (width * h + (width - w)) * 4 // 跟当前镜像位置索引
+// 高斯模糊 - 如果需要只模糊部分，则只取一部分的data
+const gaussBlur = (imageBase: any, cxt: any) => {
+  let pixes = imageBase.data
+  let width = imageBase.width
+  let height = imageBase.height
 
-      let r = imageData[idx]
-      let g = imageData[idx + 1]
-      let b = imageData[idx + 2]
+  let gaussMatrix = [],
+    gaussSum = 0
+  let x, y
+  let r, g, b, a
+  let i, j, k, len
+  let radius = 10
+  let sigma = 20  // 模糊系数
 
-      let D = fn(r, g, b, midx, idx, bidx, aidx)
+  a = 1 / (Math.sqrt(2 * Math.PI) * sigma)
+  b = -1 / (2 * sigma * sigma)
+  // 生成高斯矩阵
+  //生成高斯矩阵
+  for (i = 0, x = -radius; x <= radius; x++, i++) {
+    g = a * Math.exp(b * x * x)
+    gaussMatrix[i] = g
+    gaussSum += g
+  }
 
-      output.data[idx] = D.r
-      output.data[idx + 1] = D.g
-      output.data[idx + 2] = D.b
-      output.data[idx + 3] = 255
-
-      // gif 图可能需要， 不放置gift图
-      // switch (filterType.value) {
-      //   case TypesZn.GRAYL:
-      //   case TypesZn.FUSE:
-      //   // case TypesZn.FROZEN:
-      //   case TypesZn.REMINISCENCE:
-      //   case TypesZn.GROUPCLASS:
-      //     // 透明度应该根据 rgb 进行 额外处理
-      //     output.data[idx + 3] = D.r + D.g + D.b == 0 ? 0 : 255
-      // }
+  //归一化, 保证高斯矩阵的值在[0,1]之间
+  for (i = 0, len = gaussMatrix.length; i < len; i++) {
+    gaussMatrix[i] /= gaussSum
+  }
+  //x 方向一维高斯运算
+  for (y = 0; y < height; y++) {
+    for (x = 0; x < width; x++) {
+      r = g = b = a = 0
+      gaussSum = 0
+      for (j = -radius; j <= radius; j++) {
+        k = x + j
+        if (k >= 0 && k < width) {
+          //确保 k 没超出 x 的范围
+          //r,g,b,a 四个一组
+          i = (y * width + k) * 4
+          r += pixes[i] * gaussMatrix[j + radius]
+          g += pixes[i + 1] * gaussMatrix[j + radius]
+          b += pixes[i + 2] * gaussMatrix[j + radius]
+          // a += pixes[i + 3] * gaussMatrix[j];
+          gaussSum += gaussMatrix[j + radius]
+        }
+      }
+      i = (y * width + x) * 4
+      // 除以 gaussSum 是为了消除处于边缘的像素, 高斯运算不足的问题
+      // console.log(gaussSum)
+      pixes[i] = r / gaussSum
+      pixes[i + 1] = g / gaussSum
+      pixes[i + 2] = b / gaussSum
+      // pixes[i + 3] = a ;
     }
   }
-  cxt.clearRect(0, 0, width, height)
-  cxt.putImageData(output, 0, 0)
+  //y 方向一维高斯运算
+  for (x = 0; x < width; x++) {
+    for (y = 0; y < height; y++) {
+      r = g = b = a = 0
+      gaussSum = 0
+      for (j = -radius; j <= radius; j++) {
+        k = y + j
+        if (k >= 0 && k < height) {
+          //确保 k 没超出 y 的范围
+          i = (k * width + x) * 4
+          r += pixes[i] * gaussMatrix[j + radius]
+          g += pixes[i + 1] * gaussMatrix[j + radius]
+          b += pixes[i + 2] * gaussMatrix[j + radius]
+          // a += pixes[i + 3] * gaussMatrix[j];
+          gaussSum += gaussMatrix[j + radius]
+        }
+      }
+      i = (y * width + x) * 4
+      pixes[i] = r / gaussSum
+      pixes[i + 1] = g / gaussSum
+      pixes[i + 2] = b / gaussSum
+    }
+  }
+  return imageBase
 }
 </script>
 
