@@ -37,6 +37,7 @@ let stringContent = ref<string>('')
 let helpDocs = ref<any>(null)
 const cateTree = ref<any>(null)
 const category = ref<any>(null)
+const renderLoading = ref<boolean>(false)
 
 let mdPreList = ref<any>([])
 let mdChooseIndex = ref<string>('')
@@ -56,6 +57,7 @@ const fetchMDContent = (url: string) => {
     .get(url)
     .then(res => {
       stringContent.value = res.data
+      console.log('result', res.data)
       updateVditorValue()
       // 高亮代码
       setTimeout(() => {
@@ -66,7 +68,7 @@ const fetchMDContent = (url: string) => {
 
       setTimeout(() => {
         // 需要content更新完毕后再进行生成目录操作
-        category.value && category.value.createCategory()
+        // category.value && category.value.createCategory()
       }, 300)
     })
     .catch(err => {
@@ -104,7 +106,8 @@ const createAray = () => {
     updateVditorValue()
   }, 1000)
 }
-const updateVditorValue = () => {
+const updateVditorValue = async () => {
+  renderLoading.value = false
   // vditor.value.setValue(content.value)
 
   let dom = <any>document.getElementById('khaleesi')
@@ -121,7 +124,8 @@ const updateVditorValue = () => {
       }
     }
   }
-  Vditor.preview(dom, content.value, options)
+  await Vditor.preview(dom, content.value, options)
+  renderLoading.value = true
 }
 
 // ==========================================================================
@@ -150,7 +154,7 @@ const createCates = () => {
     }
   })
 
-  console.log('cateRee', cateTree, cateTree.value)
+  // console.log('cateRee', cateTree, cateTree.value)
   cateTree.value.toCateTree(mdPreList.value)
 
   createAray()
@@ -167,6 +171,7 @@ const docsScroll = () => {
 // !typora 的主体样式文件 引用了与 在typora中效果不一致
 @import './themes/markdown.less';
 
+// ! 以下样式为使用 vditor 编辑模式 sv等时使用
 // vditor 设置的样式
 // @import '../../../assets/styles/style.less';
 
