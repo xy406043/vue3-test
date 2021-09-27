@@ -26,7 +26,12 @@
 <script setup lang="ts">
 // 参考： https://juejin.cn/post/7010944239609577508
 // 字体子集化： http://ecomfe.github.io/fontmin/#source
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import xyTools from 'xy-use-tools'
+onMounted(() => {
+  let time = ref<boolean>(false)
+  console.log('获取最新的数据', xyTools)
+})
 </script>
 
 <style lang="less" scoped>
