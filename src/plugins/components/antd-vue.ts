@@ -1,4 +1,4 @@
-import type { App } from 'vue'
+import type { App, CSSProperties, VNodeTypes } from 'vue'
 import '@ant-design-vue/pro-layout/dist/style.css' // pro-layout css
 import {
   Button,
@@ -27,6 +27,7 @@ import {
   AutoComplete,
   Upload,
   message,
+  notification,
   Progress,
   Tooltip
 } from 'ant-design-vue'
@@ -60,16 +61,16 @@ export default function loadAntdComps(app: App) {
   app.use(Tooltip)
   app.use(Progress)
 
-  const $msg = (type, msg) => message[type](msg)
-  app.config.globalProperties.$ams = msg => $msg('success', msg)
-  app.config.globalProperties.$ame = msg => $msg('error', msg)
-  app.config.globalProperties.$amw = msg => $msg('warning', msg)
-  app.config.globalProperties.$nsg = (type, msg, description) => notification[type]({ message: msg, description: description })
-  app.config.globalProperties.$ans = (msg, description) => $nsg('success', msg, description)
-  app.config.globalProperties.$ani = (msg, description) => $nsg('info', msg, description)
-  app.config.globalProperties.$anw = (msg, description) => $nsg('warning', msg, description)
-  app.config.globalProperties.$ane = (msg, description) => $nsg('error', msg, description)
-  app.config.globalProperties.$mcf = (msg, callback, cancelCallback) => {
+  const $msg = (type: string, msg: string) => message[type](msg)
+  app.config.globalProperties.$ams = (msg: string) => $msg('success', msg)
+  app.config.globalProperties.$ame = (msg: string) => $msg('error', msg)
+  app.config.globalProperties.$amw = (msg: string) => $msg('warning', msg)
+  const $nsg = (type: string, msg: string, description: string) => notification[type]({ message: msg, description: description })
+  app.config.globalProperties.$ans = (msg: string, description: string) => $nsg('success', msg, description)
+  app.config.globalProperties.$ani = (msg: string, description: string) => $nsg('info', msg, description)
+  app.config.globalProperties.$anw = (msg: string, description: string) => $nsg('warning', msg, description)
+  app.config.globalProperties.$ane = (msg: string, description: string) => $nsg('error', msg, description)
+  app.config.globalProperties.$mcf = (msg: string, callback: any, cancelCallback: any) => {
     Modal.confirm({
       content: msg,
       onOk() {
