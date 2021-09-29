@@ -42,9 +42,10 @@ export default defineConfig({
         }
       ]
     }),
-    mdPlugin.plugin({
-      mode: ['html']
-    })
+    // todo eslint报 传入Mode类型错误  枚举类型
+    // mdPlugin.plugin({
+    //   mode: ['html']
+    // })
   ],
   resolve: {
     alias: [

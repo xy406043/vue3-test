@@ -24,6 +24,12 @@ export default {
           name: 'CanvasCanvas',
           meta: { title: '滤镜', icon: 'FolderTwoTone' },
           component: () => import('@/views/CSS/Canvas/index.vue')
+        },
+        {
+          path: '/handeWrite',
+          name: 'handeWrite',
+          meta: { title: '手写笔记', icon: 'FolderTwoTone' },
+          component: () => import('@/views/CSS/Canvas/handwrite.vue')
         }
       ]
     },

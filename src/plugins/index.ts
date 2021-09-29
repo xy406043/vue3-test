@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import loadGlobalComps from "./components/index.ts"
+import loadGlobalComps from "./components/index"
 import loadAntdComps from './components/antd-vue'
 import loadProLayoutComp from './components/pro-layout'
 import loadIcons from './components/icon'
