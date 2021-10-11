@@ -1,2 +1,2 @@
 declare module "vue-signature-pad"
-declare module 'xy-vite-tools'
+declare module 'coast-ui-vue3'

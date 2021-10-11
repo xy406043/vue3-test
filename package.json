@@ -43,7 +43,7 @@
     "vuex": "^4.0.2",
     "xlsx": "^0.17.0",
     "xy-use-tools": "^0.0.6",
-    "xy-vite-tools": "^0.0.9"
+    "xy-vite-tools": "^0.0.55"
   },
   "devDependencies": {
     "@types/marked": "^3.0.1",
@@ -51,7 +51,7 @@
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^1.2.5",
-    "@vue/compiler-sfc": "^3.2.2",
+    "@vue/compiler-sfc": "^3.2.19",
     "less": "^4.1.1",
     "typescript": "^4.3.5",
     "vite": "^2.4.2",
