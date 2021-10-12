@@ -43,7 +43,7 @@
     "vuex": "^4.0.2",
     "xlsx": "^0.17.0",
     "xy-use-tools": "^0.0.6",
-    "xy-vite-tools": "^0.0.55"
+    "xy-vite-tools": "^0.0.56"
   },
   "devDependencies": {
     "@types/marked": "^3.0.1",
