@@ -134,6 +134,7 @@ const updateVditorValue = async () => {
 // 获取views_md 目录下markdown 文档 ---- 是否获取其子目录下的markdown文档
 
 const createCates = () => {
+  // ~~ vite写法 （require.context 是webpack模块， vite运行时直接使用esmodule ,未进行构建成bundle再解析）
   const upMoudles = import.meta.glob('/src/views_md/**/*.md')
   // console.log('%c 获取md目录', 'color:#2c80c5', upMoudles)
   // 按目录划分拆分出各个文件夹下的md文档，并在页面左侧进行展示
