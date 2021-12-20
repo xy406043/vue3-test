@@ -1,16 +1,8 @@
 import BasicLayout from '../../layouts/BasicLayout.vue'
 
-import File from './File'
-import Css from './CSS'
-import suanfa from './Algorithm'
-import md from "./Markdown"
+import file from './file'
+import css from './css'
+import algorithm from './Algorithm'
+import md from './Markdown'
 
-import Zip from './Zip'
-
-export const BasicRoutes = [
-  //   ...Zip,
-  File,
-  Css,
-  suanfa,
-  md
-]
+export const BasicRoutes = [file, css, algorithm, md]

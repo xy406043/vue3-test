@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import ViteComponents from 'vite-plugin-components'
+import ViteComponents, { AntDesignVueResolver } from 'vite-plugin-components'
 import styleImport from 'vite-plugin-style-import'
-import WindiCSS from 'vite-plugin-windicss'
+import winCss from 'vite-plugin-windicss'
 import { resolve } from 'path'
 import mdPlugin = require('vite-plugin-markdown')
 
@@ -29,27 +29,21 @@ export default defineConfig({
         }
       }
     }),
-    WindiCSS(),
-    ViteComponents({ globalComponentsDeclaration: true }),
-    styleImport({
-      libs: [
-        {
-          libraryName: 'ant-design-vue',
-          esModule: true,
-          resolveStyle: name => {
-            return `ant-design-vue/es/${name}/style/index`
-          }
-        }
-      ]
-    }),
-    // todo eslint报 传入Mode类型错误  枚举类型
-    // mdPlugin.plugin({
-    //   mode: ['html']
+    winCss(),
+    ViteComponents({ customComponentResolvers: [AntDesignVueResolver()], globalComponentsDeclaration: true })
+    // styleImport({
+    //   libs: [
+    //     {
+    //       libraryName: 'ant-design-vue',
+    //       resolveStyle: name => {
+    //         return `ant-design-vue/lib/${name}/style`
+    //       }
+    //     }
+    //   ]
     // })
   ],
   resolve: {
     alias: [
-      // @/xxxx => src/xxxx
       {
         find: '@/',
         replacement: pathResolve('src') + '/'

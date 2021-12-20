@@ -1,5 +1,7 @@
 import type { App, CSSProperties, VNodeTypes } from 'vue'
 import '@ant-design-vue/pro-layout/dist/style.css' // pro-layout css
+import 'ant-design-vue/dist/antd.css'
+
 import {
   Button,
   Card,

@@ -5,13 +5,7 @@
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
   >
-    <!-- custom right-content -->
-    <template #rightContentRender>
-      <right-content />
-    </template>
-    <!-- content begin -->
     <router-view />
-    <!-- content end -->
   </pro-layout>
 </template>
 
@@ -21,7 +15,6 @@ import { useRouter } from 'vue-router'
 import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout'
 import type { RouteContextProps } from '@ant-design-vue/pro-layout'
 import layoutConf from '../configs/layoutConf'
-import RightContent from '@/components/GlobalHeader/RightContent.vue'
 import Logo from '@/assets/logo.png'
 
 const i18n = (t: string) => t
@@ -46,8 +39,8 @@ watchEffect(() => {
 onMounted(() => {})
 </script>
 
-<style lang="less" >
-.ant-pro-sider-logo{
+<style lang="less">
+.ant-pro-sider-logo {
   mix-blend-mode: color-dodge;
 }
 </style>

@@ -1,0 +1,47 @@
+{
+  // ===========================================
+  // ================ 项目设置 ==================
+  // ===========================================
+
+  "js/ts.implicitProjectConfig.checkJs": true, // 避免额外报错
+  "js/ts.implicitProjectConfig.experimentalDecorators": true,
+
+  // ===========================================
+  // ================ 格式化/代码检查 ============
+  // ===========================================
+
+  "eslint.enable": true, // 启用eslint
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    // 保存时eslint 修复
+    "source.fixAll.eslint": true
+  },
+
+  "javascript.validate.enable": false, // 避免ts检查
+  "typescript.validate.enable": false,
+
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // =================== volar ======================
+
+  // ================== 其它插件配置项=================
+
+  "cSpell.userWords": [
+    "axios",
+    "mixins",
+    "stylelint",
+    "subpackage",
+    "subpackages",
+    "swiper",
+    "Vite",
+    "vitejs",
+    "vnode",
+    "vuex",
+    // ant-design
+    "vant",
+    "antd",
+    "hoverable"
+  ]
+}

@@ -1,9 +1,22 @@
 {
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 7070",
     "test": "vue-tsc --noEmit && vite build --mode test",
     "serve": "vite preview"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./src/**/*.{js,ts,json,vue}": [
+      "eslint"
+    ],
+    "*.{ts,tsx,js,json,html,yml,css,less,md}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@ant-design-vue/pro-layout": "^3.1.0-beta.4",
@@ -13,7 +26,7 @@
     "@vueuse/core": "^5.1.4",
     "@vueuse/motion": "^1.5.6",
     "@vueuse/rxjs": "^5.2.0",
-    "ant-design-vue": "^2.2.6",
+    "ant-design-vue": "^3.0.0-alpha.14",
     "axios": "^0.21.1",
     "cropperjs": "^1.5.12",
     "css-doodle": "^0.19.2",
@@ -46,19 +59,31 @@
     "xy-vite-tools": "^0.0.56"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/eslint-parser": "^7.16.5",
     "@types/marked": "^3.0.1",
     "@types/node": "^16.9.1",
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.7",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
     "@vitejs/plugin-vue": "^1.2.5",
     "@vue/compiler-sfc": "^3.2.19",
     "esbuild-darwin-arm64": "^0.13.4",
+    "eslint": "^8.5.0",
+    "eslint-define-config": "^1.2.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "husky": "^4.3.1",
     "less": "^4.1.1",
+    "lint-staged": "^12.1.3",
+    "prettier": "^2.5.1",
     "typescript": "^4.3.5",
     "vite": "^2.4.2",
     "vite-plugin-components": "^0.12.2",
     "vite-plugin-style-import": "^1.0.1",
+    "vite-plugin-vue-setup-extend": "^0.1.0",
     "vite-plugin-windicss": "^1.2.4",
+    "vue-eslint-parser": "^8.0.1",
     "vue-tsc": "^0.0.24",
     "windicss": "^3.1.5"
   }
