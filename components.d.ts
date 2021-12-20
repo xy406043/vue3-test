@@ -7,7 +7,6 @@ declare module 'vue' {
     ACard: typeof import('ant-design-vue/es')['Card']
     AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
     AModal: typeof import('ant-design-vue/es')['Modal']
-    ATable: typeof import('ant-design-vue/es')['Table']
     Index: typeof import('./src/components/SAlert/Index.vue')['default']
     Inex: typeof import('./src/components/Upload/inex.vue')['default']
   }

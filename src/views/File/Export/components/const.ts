@@ -11,6 +11,7 @@ export const columns = [
   },
   {
     title: 's',
+    key: 'place',
     dataIndex: 'place',
     slots: { customRender: 'place' },
     width: 150

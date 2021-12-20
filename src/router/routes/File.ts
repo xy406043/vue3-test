@@ -31,6 +31,6 @@ export default {
       meta: { title: '图片处理', icon: 'FileImageTwoTone' },
       component: () => import('@/views/File/Img/index.vue')
       // component: () => import('@/views/File/Img/components/imgWheel.vue')
-    },
+    }
   ]
 }

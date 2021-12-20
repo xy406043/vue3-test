@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import ViteComponents, { AntDesignVueResolver } from 'vite-plugin-components'
-import styleImport from 'vite-plugin-style-import'
-import winCss from 'vite-plugin-windicss'
+import ViteComponents from 'vite-plugin-components'
+import Components from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import unocss from 'unocss/vite'
+
 import { resolve } from 'path'
-import mdPlugin = require('vite-plugin-markdown')
 
 function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir)
@@ -14,34 +15,24 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       less: {
-        javascriptEnabled: true,
-        modifyVars: {
-          '@border-radius-base': '4px'
-        }
+        javascriptEnabled: true
       }
     }
   },
+
   plugins: [
+    unocss({}),
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: tag => tag == 'css-doodle' || tag.startsWith('fc-')
+          isCustomElement: tag => tag === 'css-doodle' || tag.startsWith('fc-')
         }
       }
     }),
-    winCss(),
-    ViteComponents({ customComponentResolvers: [AntDesignVueResolver()], globalComponentsDeclaration: true })
-    // styleImport({
-    //   libs: [
-    //     {
-    //       libraryName: 'ant-design-vue',
-    //       resolveStyle: name => {
-    //         return `ant-design-vue/lib/${name}/style`
-    //       }
-    //     }
-    //   ]
-    // })
+    // ViteComponents({ globalComponentsDeclaration: true }),
+    Components({ resolvers: [AntDesignVueResolver()] })
   ],
+
   resolve: {
     alias: [
       {
@@ -49,5 +40,10 @@ export default defineConfig({
         replacement: pathResolve('src') + '/'
       }
     ]
+  },
+
+  server: {
+    cors: true,
+    open: true
   }
 })

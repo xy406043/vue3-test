@@ -1,5 +1,5 @@
 <template>
-  <div class="markodwContent" id="markodwContent">
+  <div id="markodwContent" class="markodwContent">
     <!-- 页面渲染 -->
     <div class="preview-vditor" element-loading-text="正在努力，请稍候..." @scroll="docsScroll">
       <div id="khaleesi" class="vditor-preview" />
@@ -33,14 +33,14 @@ const { globalProperties: global, proxy: ctx } = useCurrentInstance()
 // 忽略hightlight关于 unscapedHTML 的警告
 hljs.configure({ ignoreUnescapedHTML: true })
 
-let stringContent = ref<string>('')
-let helpDocs = ref<any>(null)
+const stringContent = ref<string>('')
+const helpDocs = ref<any>(null)
 const cateTree = ref<any>(null)
 const category = ref<any>(null)
 const renderLoading = ref<boolean>(false)
 
-let mdPreList = ref<any>([])
-let mdChooseIndex = ref<string>('')
+const mdPreList = ref<any>([])
+const mdChooseIndex = ref<string>('')
 
 const documentSub = ref<any>(document)
 
@@ -110,21 +110,21 @@ const updateVditorValue = async () => {
   renderLoading.value = false
   // vditor.value.setValue(content.value)
 
-  let dom = <any>document.getElementById('khaleesi')
-  let options = <any>{
+  const dom: any = document.getElementById('khaleesi')
+  const previewOptions: IPreviewOptions = {
     mode: 'light',
-    anchor: 1,
-    preview: {
-      markdown: {
-        toc: true,
-        fixTermTypo: true, // 自动矫正术语
-        listStyle: true, // 列表添加data-style属性
-        mark: true // 启用mark标记
-        // linkPrefix:"",// 链接强制前缀
-      }
-    }
+    anchor: 1
+    // preview: {
+    //   markdown: {
+    //     toc: true,
+    //     fixTermTypo: true, // 自动矫正术语
+    //     listStyle: true, // 列表添加data-style属性
+    //     mark: true // 启用mark标记
+    //     // linkPrefix:"",// 链接强制前缀
+    //   }
+    // }
   }
-  await Vditor.preview(dom, content.value, options)
+  await Vditor.preview(dom, content.value, previewOptions)
   renderLoading.value = true
 }
 
@@ -141,8 +141,8 @@ const createCates = () => {
   // todo 当前选中渲染的文件在左侧应有不同的样式表现
 
   Object.keys(upMoudles).forEach((item: any, index: number) => {
-    let paths = item.replace('/src/views_md/', '').split('/')
-    let pathSimple = item.replace('/src/views_md/', '')
+    const paths = item.replace('/src/views_md/', '').split('/')
+    const pathSimple = item.replace('/src/views_md/', '')
     mdPreList.value.push({
       path: item,
       pathSimple,

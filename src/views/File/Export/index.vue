@@ -1,19 +1,19 @@
 <template>
   <!-- 导入数据并读取、导入数据并上传 -->
-  <a-card>
+  <a-card class="mb-20px">
     <a-button type="primary" class="mb-10px" ghost @click="toImport">fileType导入</a-button>
-    <input ref="importFile" id="importFile" type="file" @change="valueChange" v-show="false" />
+    <input v-show="false" id="importFile" ref="importFile" type="file" @change="valueChange" />
     <a-button type="primary" class="ml-10px" ghost @click="toImport">fileType上传</a-button>
-    <input ref="uploadFile" id="uploadFile" type="file" @change="valueChange2" v-show="false" />
+    <input v-show="false" id="uploadFile" ref="uploadFile" type="file" @change="valueChange2" />
     <a-button type="primary" class="ml-10px" @click="showImg">总结展示</a-button>
   </a-card>
 
   <!-- 文件导出 -- 特定样式 -->
-  <a-card class="mt-10px">
-    <a-button type="primary" class="mb-10px" ghost @click="toExport">导出</a-button>
-    <a-table :data-source="testData" :columns="columns" key="index" :scroll="{ x: 1000 }">
+  <a-card>
+    <a-button type="primary" class="mb-20px" ghost @click="toExport">导出</a-button>
+    <!-- <a-table key="index" :data-source="testData" :columns="columns" :scroll="{ x: 1000 }">
       <template #place="{ record, text }"> 啥卡萨 </template>
-    </a-table>
+    </a-table> -->
   </a-card>
 
   <!-- File累计图示 -->
@@ -47,7 +47,7 @@ const toExport = () => {
 
 const showImg = () => {
   fileModal.value = true
-  console.log("fileK",fileModal.value)
+  console.log('fileK', fileModal.value)
 }
 </script>
 

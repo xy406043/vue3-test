@@ -29,6 +29,10 @@
   // ================== 其它插件配置项=================
 
   "cSpell.userWords": [
+    "windicss",
+    "windi",
+    "vueuse",
+    "echarts",
     "axios",
     "mixins",
     "stylelint",

@@ -1,12 +1,12 @@
 <template>
   <div style="display: flex">
-    <VueDraggableNext :list="fileList" @end="endAction" :sort="!disabled" style="display: flex">
-      <div v-for="(file, index) in fileList">
+    <VueDraggableNext :list="fileList" :sort="!disabled" style="display: flex" @end="endAction">
+      <div v-for="(file, index) in fileList" :key="index">
         <div :key="index">
           <a-tooltip :title="file.status === 'error' ? file.name + '：' + file.response : ''">
             <div class="upload-list-picture-card-container">
               <div class="upload-list-item-info">
-                <a-progress :percent="100" status="active" :strokeWidth="6" :showInfo="false" v-if="file.status === 'uploading'" />
+                <a-progress v-if="file.status === 'uploading'" :percent="100" status="active" :strokeWidth="6" :showInfo="false" />
                 <template v-else>
                   <template v-if="file.status === 'error'">
                     <FileImageOutlined :style="{ fontSize: '30px' }" />
@@ -14,24 +14,24 @@
                   </template>
                   <template v-else>
                     <video
-                      :src="file.url"
                       v-if="(file.type && file.type.includes('video')) || (file.url && file.url.includes('.mp4'))"
+                      :src="file.url"
                       :style="`width: 100%; height: 100%; border-radius: 4px;object-fit:${objectFit}`"
                     ></video>
                     <img
+                      v-else
+                      :key="index"
                       :src="file.url"
                       :style="`width: 100%; height: 100%; border-radius: 4px;object-fit:${objectFit}`"
-                      :key="index"
-                      v-else
                     />
                   </template>
                   <div class="mask">
                     <span class="mask-icon">
                       <EyeTwoTone
-                        @click.stop.prevent="_preview(index)"
                         :style="{ color: 'white', fontSize: '18px', opacity: file.status === 'error' ? '0.5' : '1' }"
+                        @click.stop.prevent="_preview(index)"
                       />
-                      <DeleteTwoTone style="margin-left: 10px" v-if="!disabled" @click.stop.prevent="_remove(index)" />
+                      <DeleteTwoTone v-if="!disabled" style="margin-left: 10px" @click.stop.prevent="_remove(index)" />
                     </span>
                   </div>
                 </template>
@@ -47,10 +47,10 @@
       :beforeUpload="_beforeUpload"
       :multiple="true"
       listType="picture-card"
-      @change="handleChange"
       :disabled="disabled"
-      @preview="handlePreview"
       :showUploadList="false"
+      @change="handleChange"
+      @preview="handlePreview"
     >
       <div v-if="fileList.length < maxLen">
         <PlusOutlined />
@@ -58,7 +58,7 @@
       </div>
     </a-upload>
     <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-      <img alt="example" style="width: 100%" :src="previewImage" v-if="checkMediaType(1)" />
+      <img v-if="checkMediaType(1)" alt="example" style="width: 100%" :src="previewImage" />
       <video v-if="checkMediaType(2)" :src="previewImage" controls style="width: 100%"></video>
     </a-modal>
   </div>
@@ -89,7 +89,7 @@ const headers = ref({
     'Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1bmlvbklkIjoiIiwibWNoSWQiOiJjbG91ZF9jb3VudGVyX3Rlc3QiLCJjb3JwSWQiOiIiLCJkZXB0U3RyIjoiIiwiZ2VuZGVyIjowLCJsb2dpblR5cGUiOiJjbXMiLCJvcGVuSWQiOiIiLCJ0YWdJZHMiOltdLCJkZXB0SWQiOiJudWxsIiwicmVhbE5hbWUiOiJhZG1pbiIsImhlYWRJbWdVcmwiOiIiLCJwaG9uZSI6IiIsImFwcElkIjoiY2xvdWRfY291bnRlcl90ZXN0IiwibmFtZSI6ImFkbWluIiwic2Vzc2lvbl9rZXkiOiIiLCJpZCI6IjEwOCIsInN1YkFwcElkIjoiIiwiZXhwIjoxNjMxODQ4NTQ0fQ.1nXySOfn7fjyveHoYaP_8tgn1rp2oSanJPLT4ilSU0_V5YGikP6oX_Q3NoNaKg5iBpDR-TdE-MF3UVpquDnCxQ'
 })
 const props = defineProps(SProps)
-let { defaultList, objectFit } = toRefs(props)
+const { defaultList, objectFit } = toRefs(props)
 
 onMounted(() => {})
 
@@ -103,7 +103,7 @@ const _beforeUpload = (file: File, files: FileList) => {
     $ame('上传失败：格式错误')
     return false
   }
-  if (typeof props.maxSize == 'number' && file.size / 1024 / 1024 > props.maxSize) {
+  if (typeof props.maxSize === 'number' && file.size / 1024 / 1024 > props.maxSize) {
     $ame(`上传失败：请上传${props.maxSize}KB以内的文件`)
     return false
   }
@@ -113,7 +113,7 @@ const _beforeUpload = (file: File, files: FileList) => {
 
 const _customRequest = (options: any) => {
   const { onSuccess, onError, file, onProgress } = options
-  let formdata = new FormData()
+  const formdata = new FormData()
   formdata.append('files', file)
   axios
     .request({
@@ -124,7 +124,7 @@ const _customRequest = (options: any) => {
     })
     .then(res => {
       if (res.data.code === 0) {
-        let urlList = res.data.result
+        const urlList = res.data.result
         for (let i = 0; i < urlList.length; i++) {
           const detail = urlList[i]
           onSuccess(detail)
@@ -198,10 +198,10 @@ const _remove = (index: number) => {
 }
 
 const checkMediaType = (number: number) => {
-  let url = previewImage.value
+  const url = previewImage.value
   let type
-  let imgCatch = new RegExp(/(.img|.png|.gif|.jpeg)/)
-  let videoCatch = new RegExp(/(.mp4|.flv)/)
+  const imgCatch = new RegExp(/(.img|.png|.gif|.jpeg)/)
+  const videoCatch = new RegExp(/(.mp4|.flv)/)
   if (imgCatch.test(url)) return number == 1
   if (videoCatch.test(url)) return number == 2
 }
@@ -211,7 +211,7 @@ watch(
   () => {
     if (hasInit.value) return
     fileList.value = props.defaultList.map((item: any) => {
-      let ct = typeof item == 'string'
+      const ct = typeof item === 'string'
       return {
         uid: ct ? item : item.url,
         status: 'finished',

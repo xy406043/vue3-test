@@ -1,3 +1,3 @@
-import SAlert from './Index.vue';
+import SAlert from './Index.vue'
 
-export default SAlert;
+export default SAlert

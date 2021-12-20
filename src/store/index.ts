@@ -1,12 +1,12 @@
-import { createStore } from 'vuex';
-import { UserStore, State as UserState } from '@/store/modules/user';
-import { store as user } from '@/store/modules/user';
+import { createStore } from 'vuex'
+import { UserStore, State as UserState } from '@/store/modules/user'
+import { store as user } from '@/store/modules/user'
 
 export type RootState = {
-  user: UserState;
-};
+  user: UserState
+}
 
-export type Store = UserStore<Pick<RootState, 'user'>>;
+export type Store = UserStore<Pick<RootState, 'user'>>
 
 const store = createStore({
   mutations: {},
@@ -16,8 +16,8 @@ const store = createStore({
   getters: {},
 
   modules: {
-    user,
-  },
-});
+    user
+  }
+})
 
-export default store;
+export default store
