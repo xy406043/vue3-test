@@ -1,10 +1,9 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import ViteComponents from 'vite-plugin-components'
-import Components from 'unplugin-vue-components/vite'
+import Components from 'unplugin-vue-components/vite' // 取代 vite-plugin-components
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import unocss from 'unocss/vite'
-
+import styleImport, { AndDesignVueResolve } from 'vite-plugin-style-import'
 import { resolve } from 'path'
 
 function pathResolve(dir: string) {
@@ -29,8 +28,20 @@ export default defineConfig({
         }
       }
     }),
-    // ViteComponents({ globalComponentsDeclaration: true }),
     Components({ resolvers: [AntDesignVueResolver()] })
+
+    // styleImport({
+    // ! 不生效
+    //   resolves: [AndDesignVueResolve()],
+    // ! 只能使用此种写法 前置加上 /node_modules/才生效
+    //   libs: [
+    //     {
+    //       libraryName: 'ant-design-vue',
+    //       esModule: true,
+    //       resolveStyle: name => `/node_modules/ant-design-vue/es/${name}/style/index.less`
+    //     }
+    //   ]
+    // })
   ],
 
   resolve: {

@@ -7,10 +7,11 @@ import loadIcons from './components/icon'
 // 动画库
 import { MotionPlugin } from '@vueuse/motion'
 import { FcWaveFilter, FcBubbles } from 'fancy-components'
+// import 'ant-design-vue/dist/antd.css'
 
 // css 样式库
 import 'css-doodle'
-
+import 'uno.css'
 /**
  * 批量注册组件
  * @param app

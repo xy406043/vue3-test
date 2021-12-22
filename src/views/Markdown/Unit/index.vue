@@ -57,7 +57,6 @@ const fetchMDContent = (url: string) => {
     .get(url)
     .then(res => {
       stringContent.value = res.data
-      console.log('result', res.data)
       updateVditorValue()
       // 高亮代码
       setTimeout(() => {

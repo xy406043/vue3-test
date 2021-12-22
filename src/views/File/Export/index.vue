@@ -1,6 +1,6 @@
 <template>
   <!-- 导入数据并读取、导入数据并上传 -->
-  <a-card class="mb-20px">
+  <a-card class="top-menu mt-20px">
     <a-button type="primary" class="mb-10px" ghost @click="toImport">fileType导入</a-button>
     <input v-show="false" id="importFile" ref="importFile" type="file" @change="valueChange" />
     <a-button type="primary" class="ml-10px" ghost @click="toImport">fileType上传</a-button>
@@ -9,7 +9,7 @@
   </a-card>
 
   <!-- 文件导出 -- 特定样式 -->
-  <a-card>
+  <a-card class="mt-20px top-menu">
     <a-button type="primary" class="mb-20px" ghost @click="toExport">导出</a-button>
     <!-- <a-table key="index" :data-source="testData" :columns="columns" :scroll="{ x: 1000 }">
       <template #place="{ record, text }"> 啥卡萨 </template>
@@ -34,7 +34,7 @@ import useCurrentInstance from '@/hooks/useCurrentInstance'
 const { globalProperties: global, proxy: ctx } = useCurrentInstance()
 const { $ame, $ams } = global
 
-const onTableChange = () => {}
+// const onTableChange = () => {}
 
 import canExport from './components/export'
 const toExport = () => {
@@ -51,4 +51,8 @@ const showImg = () => {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.top-menu {
+  // margin-top: 20px;
+}
+</style>

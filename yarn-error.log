@@ -1,0 +1,122 @@
+Arguments: 
+  /Users/xuyuan/.nvm/versions/node/v16.10.0/bin/node /Users/xuyuan/.nvm/versions/node/v16.10.0/bin/yarn
+
+PATH: 
+  /Users/xuyuan/.nvm/versions/node/v16.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/xuyuan/.nvm/versions/node/v16.10.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin
+
+Yarn version: 
+  1.22.15
+
+Node version: 
+  16.10.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.npmjs.org/@ant-design-vue%2fpro-layout: ETIMEDOUT
+      at Timeout._onTimeout (/Users/xuyuan/.nvm/versions/node/v16.10.0/lib/node_modules/yarn/lib/cli.js:141545:19)
+      at listOnTimeout (node:internal/timers:557:17)
+      at processTimers (node:internal/timers:500:7)
+
+npm manifest: 
+  {
+    "version": "0.0.0",
+    "scripts": {
+      "dev": "vite --host --port 7070",
+      "test": "vue-tsc --noEmit && vite build --mode test",
+      "serve": "vite preview",
+      "test2": "node build/test.js"
+    },
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged --allow-empty"
+      }
+    },
+    "lint-staged": {
+      "./src/**/*.{js,ts,json,vue}": [
+        "eslint"
+      ],
+      "*.{ts,tsx,js,json,html,yml,css,less,md}": [
+        "prettier --write"
+      ]
+    },
+    "dependencies": {
+      "@ant-design-vue/pro-layout": "^3.1.0-beta.4",
+      "@ant-design/icons-vue": "^6.0.1",
+      "@types/highlight.js": "^10.1.0",
+      "@types/showdown": "^1.9.4",
+      "@vueuse/core": "^5.1.4",
+      "@vueuse/motion": "^1.5.6",
+      "@vueuse/rxjs": "^5.2.0",
+      "ant-design-vue": "^2.2.8",
+      "axios": "^0.21.1",
+      "cropperjs": "^1.5.12",
+      "css-doodle": "^0.19.2",
+      "echarts": "^5.1.2",
+      "exceljs": "^4.3.0",
+      "fancy-components": "^0.0.21",
+      "file-saver": "^2.0.5",
+      "highlight.js": "^11.2.0",
+      "jszip": "^3.7.1",
+      "markdown-loader": "^6.0.0",
+      "marked": "^3.0.1",
+      "mitt": "^3.0.0",
+      "nprogress": "^0.2.0",
+      "qs": "^6.10.1",
+      "ramda": "^0.27.1",
+      "rxjs": "^7.3.0",
+      "store2": "^2.12.0",
+      "underscore": "^1.13.1",
+      "uuid": "^8.3.2",
+      "vditor": "^3.8.6",
+      "vite-plugin-markdown": "^2.0.2",
+      "vue-draggable-next": "^2.0.1",
+      "vue-echarts": "^6.0.0-rc.6",
+      "vue-router": "^4.0.11",
+      "vue-signature-pad": "^3.0.1",
+      "vuex": "^4.0.2",
+      "xlsx": "^0.17.0",
+      "xy-use-tools": "^0.0.6",
+      "xy-vite-tools": "^0.0.56"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.16.5",
+      "@babel/eslint-parser": "^7.16.5",
+      "@types/marked": "^3.0.1",
+      "@types/node": "^16.9.1",
+      "@types/nprogress": "^0.2.0",
+      "@types/qs": "^6.9.7",
+      "@typescript-eslint/eslint-plugin": "^5.7.0",
+      "@typescript-eslint/parser": "^5.7.0",
+      "@vitejs/plugin-vue": "^2.0.1",
+      "@vue/compiler-sfc": "^3.2.19",
+      "chalk": "^4.1.2",
+      "esbuild-darwin-arm64": "^0.13.4",
+      "eslint": "^8.5.0",
+      "eslint-config-prettier": "^8.3.0",
+      "eslint-define-config": "^1.2.0",
+      "eslint-plugin-prettier": "^4.0.0",
+      "eslint-plugin-vue": "^8.2.0",
+      "execa": "^5.1.1",
+      "fs-extra": "^10.0.0",
+      "husky": "^4.3.1",
+      "less": "^4.1.1",
+      "lint-staged": "^12.1.3",
+      "minimist": "^1.2.5",
+      "prettier": "^2.5.1",
+      "typescript": "^4.3.5",
+      "unocss": "^0.16.4",
+      "unplugin-vue-components": "^0.17.9",
+      "vite": "^2.4.2",
+      "vite-plugin-style-import": "^1.3.0",
+      "vue-eslint-parser": "^8.0.1",
+      "vue-tsc": "^0.0.24"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -3,7 +3,6 @@ import App from './App.vue'
 import setupGlobComps from './plugins'
 import router from './router'
 import store from './store'
-import 'uno.css'
 
 const app = createApp(App)
 

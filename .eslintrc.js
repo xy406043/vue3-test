@@ -67,7 +67,12 @@ module.exports = {
     // 谨慎，代码中部分逻辑应用deep object 修改属性可生效
     'vue/no-mutating-props': 0,
 
-    '@typescript-eslint/no-empty-function': 0
+    // fix: missing return type on function
+    '@typescript-eslint/explicit-module-boundary-types': ['off'],
+    // fix: require statement  not part of import statement
+    '@typescript-eslint/no-var-requires': 0,
+
+    '@typescript-eslint/no-unused-vars': 0
   },
   overrides: [
     {
