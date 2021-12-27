@@ -11,9 +11,9 @@
   <!-- 文件导出 -- 特定样式 -->
   <a-card class="mt-20px top-menu">
     <a-button type="primary" class="mb-20px" ghost @click="toExport">导出</a-button>
-    <!-- <a-table key="index" :data-source="testData" :columns="columns" :scroll="{ x: 1000 }">
+    <a-table key="index" :data-source="testData" :columns="columns" :scroll="{ x: 1000 }">
       <template #place="{ record, text }"> 啥卡萨 </template>
-    </a-table> -->
+    </a-table>
   </a-card>
 
   <!-- File累计图示 -->

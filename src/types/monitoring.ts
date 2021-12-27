@@ -3,11 +3,11 @@ export enum HeatLevelType {
   Wen,
   Re,
   Fei,
-  Bao,
+  Bao
 }
 
 export type InstAttr = {
-  instId: string;
-  instName: string;
-  [index: string]: any;
-};
+  instId: string
+  instName: string
+  [index: string]: any
+}
