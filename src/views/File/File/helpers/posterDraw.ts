@@ -21,6 +21,7 @@ interface staffItem {
 
 export const posterDraw = (list: Array) => {
   console.time('posterDownload')
+  const ls = 33
 
   // 初始化
   localNum = 0
@@ -30,31 +31,31 @@ export const posterDraw = (list: Array) => {
   // 开始绘制
   list.forEach((item: staffItem) => {
     // 创建画布
-    let canvas = document.createElement('canvas')
+    const canvas = document.createElement('canvas')
     canvas.height = 1334
     canvas.width = 750
-    let ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d')
 
     // 绘制 图形 注意绘制顺序，不要被遮挡了
-    let promise1 = new Promise((rs, rj) => {
+    const promise1 = new Promise((rs, rj) => {
       const img = new Image()
       img.setAttribute('crossOrigin', 'anonymous')
       img.src = posterUrl
       img.onload = () => {
-        let width = 750
-        let height = (img.height * 750) / img.width
+        const width = 750
+        const height = (img.height * 750) / img.width
         ctx?.drawImage(img, 0, 0, width, height)
         rs(true)
       }
       img.onerror = e => {
         console.log(`mobile:${item.mobile}海报图---绘制失败`, e)
         item.posterName = '异常绘制_' + item.posterName
-        resolve()
+        rs()
       }
     })
 
     promise1.then(res => {
-      let promise2 = new Promise((rs, rj) => {
+      const promise2 = new Promise((rs, rj) => {
         const img2 = new Image()
         img2.setAttribute('crossOrigin', 'anonymous')
         img2.src = commonBg //底图
@@ -70,7 +71,7 @@ export const posterDraw = (list: Array) => {
       })
 
       promise2.then(res => {
-        let promise3 = new Promise((rs, rj) => {
+        const promise3 = new Promise((rs, rj) => {
           const img3 = new Image()
           img3.setAttribute('crossOrigin', 'anonymous')
           img3.src = item.posterUrl // 小程序码
@@ -86,8 +87,8 @@ export const posterDraw = (list: Array) => {
         })
 
         Promise.all([promise3]).then(s => {
-          let contentSub = JSON.parse(JSON.stringify(item))
-          let p = Object.assign({ storeName: item.storeName }, contentSub)
+          const contentSub = JSON.parse(JSON.stringify(item))
+          const p = Object.assign({ storeName: item.storeName }, contentSub)
           getCanvas2(p, ctx, canvas)
         })
       })
@@ -102,7 +103,7 @@ function getCanvas2(item, ctx, canvasEl) {
   ctx.fillStyle = '#ff577c'
 
   // 文字断点
-  let result = breakLinesForCanvas(ctx, item.storeName, 453)
+  const result = breakLinesForCanvas(ctx, item.storeName, 453)
   let showStr = ''
   if (result.length > 1) {
     //需要多行展示
@@ -147,15 +148,15 @@ function downLoadZip(zip) {
   })
 
   zip.generateAsync({ type: 'blob' }).then(async content => {
-    let zipFileName = '海报集.zip'
+    const zipFileName = '海报集.zip'
     await FileSaver.saveAs(content, zipFileName)
     console.timeEnd('posterDownload')
   })
 }
 
 function downLoadImg(row) {
-  let url = URL.createObjectURL(row.url)
-  let eleLink = document.createElement('a')
+  const url = URL.createObjectURL(row.url)
+  const eleLink = document.createElement('a')
   eleLink.download = row.name
   eleLink.href = url
   eleLink.click()
@@ -164,13 +165,13 @@ function downLoadImg(row) {
 }
 
 function findBreakPoint(text, width, context) {
-  var min = 0
-  var max = text.length - 1
+  let min = 0
+  let max = text.length - 1
 
   while (min <= max) {
-    var middle = Math.floor((min + max) / 2)
-    var middleWidth = context.measureText(text.substr(0, middle)).width
-    var oneCharWiderThanMiddleWidth = context.measureText(text.substr(0, middle + 1)).width
+    const middle = Math.floor((min + max) / 2)
+    const middleWidth = context.measureText(text.substr(0, middle)).width
+    const oneCharWiderThanMiddleWidth = context.measureText(text.substr(0, middle + 1)).width
     if (middleWidth <= width && oneCharWiderThanMiddleWidth > width) {
       return middle
     }
@@ -184,9 +185,9 @@ function findBreakPoint(text, width, context) {
 }
 
 function breakLinesForCanvas(ctx, text, width, font) {
-  var context = ctx
-  var result = []
-  var breakPoint = 0
+  const context = ctx
+  const result = []
+  let breakPoint = 0
   if (font) {
     context.font = font
   }

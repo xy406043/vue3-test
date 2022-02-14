@@ -1,6 +1,6 @@
 import XLSX from 'xlsx'
 import { ref } from 'vue'
-// import { Form, message } from 'ant-design-vue'
+import { Form, message } from 'ant-design-vue'
 import axios from 'axios'
 
 // TODO Vue3如何获取原生标签？？？ 组件需要defineExpose
@@ -32,7 +32,7 @@ export const valueChange = () => {
 
 // 注意  可以通过FormData.get(key) 获取到值，但是直接打印newForm 是不行的
 export const valueChange2 = () => {
-  const file = document.getElementById('importFile2').files[0]
+  const file = document.getElementById('importFile2')?.files[0]
   const newFrom = new FormData()
   newFrom.append('files', file)
 }

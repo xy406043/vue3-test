@@ -1,7 +1,7 @@
-import JSZip from "jszip"
-import FileSaver from "file-saver"
+import JSZip from 'jszip'
+import FileSaver from 'file-saver'
 
-export const folderCreate = (list: Array, totalNum: Number, vm: any, documentSub: any) => {
+export const folderCreate = (list: Array, totalNum: number, vm: any, documentSub: any) => {
   list.forEach(item => {
     toExport(item, totalNum, vm, documentSub)
   })
@@ -10,18 +10,18 @@ export const folderCreate = (list: Array, totalNum: Number, vm: any, documentSub
 async function toExport(friendItem, totalNum, vm, documentSub) {
   // ~~ 通过JSZIP  folder/file 的形式生成文件夹放入文件    应该 可以做到此种处理
 
-  let { id, copy, type, coverUrl, subUrls: urls, name } = friendItem
+  const { id, copy, type, coverUrl, subUrls: urls, name } = friendItem
   //   let urls = subUrls.map(item => item.url)
 
-  let promiseList = []
-  let fileList = [] // 处理结果添加进入 fileList
+  const promiseList = []
+  const fileList = [] // 处理结果添加进入 fileList
 
   //todo 处置文本 ___  是否需要添加进去 点击图片跳转的链接
   // ~~ 输入富文本编辑器内部的数据含有网图 无法在txt文件中进行展示
 
   // let div = document.createElement('div')
-  let divName = `showText${friendItem.id}`
-  let div = documentSub.getElementById(divName)
+  const divName = `showText${friendItem.id}`
+  const div = documentSub.getElementById(divName)
   // div.innerHTML = copy
   let textCopy = ''
   try {
@@ -70,19 +70,19 @@ async function toExport(friendItem, totalNum, vm, documentSub) {
 
   // 处理图片、 封面图片
   if (type !== 3) {
-    let showUrls = type === 2 ? [coverUrl] : urls
+    const showUrls = type === 2 ? [coverUrl] : urls
 
     showUrls.map((item, index) => {
       promiseList.push(
         new Promise((resolve, reject) => {
-          let canvas = document.createElement('canvas')
-          let ctx = canvas.getContext('2d')
-          let img = new Image()
+          const canvas = document.createElement('canvas')
+          const ctx = canvas.getContext('2d')
+          const img = new Image()
           img.setAttribute('crossOrigin', 'anonymous')
           img.src = item
           img.onload = () => {
-            let width = img.width
-            let height = img.height
+            const width = img.width
+            const height = img.height
             canvas.height = height
             canvas.width = width
             ctx.drawImage(img, 0, 0, width, height)
@@ -125,7 +125,7 @@ async function toExport(friendItem, totalNum, vm, documentSub) {
     vm.initTimes += 1
     console.log('本朋友圈素材长度', promiseList.length)
     // return
-    let appendData = {
+    const appendData = {
       soureName: name,
       id,
       name: name + (type === 1 ? '_普通' : '_明星'),
@@ -140,12 +140,12 @@ async function toExport(friendItem, totalNum, vm, documentSub) {
 }
 
 function finallyDownload(vm) {
-  let zip = new JSZip()
+  const zip = new JSZip()
 
-  let { folderFileList } = vm
+  const { folderFileList } = vm
   // 对各个 朋友圈创建文件夹 并放入文件
   folderFileList.forEach((item, index) => {
-    let folder = zip.folder(item.name)
+    const folder = zip.folder(item.name)
     item.data.forEach(async (cs, b) => {
       let name = ''
       switch (cs.type) {
@@ -171,7 +171,7 @@ function finallyDownload(vm) {
 
   zip.generateAsync({ type: 'blob' }).then(async content => {
     console.log('合并压缩成功--------进行下载')
-    let zipFileName = '导出朋友圈素材.zip'
+    const zipFileName = '导出朋友圈素材.zip'
     vm.exportLoading = false
     await FileSaver.saveAs(content, zipFileName)
     console.log('下载成功。。。')
@@ -179,7 +179,7 @@ function finallyDownload(vm) {
 }
 
 function ToText(HTML) {
-  var input = HTML
+  const input = HTML
   return input
     .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, '')
     .replace(/<[^>]+?>/g, '')

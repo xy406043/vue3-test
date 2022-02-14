@@ -10,7 +10,7 @@ const args = require('minimist')(process.argv.slice(2))
 main()
 
 async function main() {
-  await execa('vite', ['-v'], {
+  await execa('vite', ['build'], {
     stdio: 'inherit'
   })
 }

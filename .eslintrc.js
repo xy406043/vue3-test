@@ -19,7 +19,9 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0, // fix: require statement  not part of import statement
     '@typescript-eslint/no-unused-vars': 0,
     '@typescript-eslint/no-empty-function': 0,
-    '@typescript-eslint/no-explicit-any': 'off',
+    // '@typescript-eslint/no-explicit-any': 'off',
+    // 优先使用 interface 而不是 type
+    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
 
     // vue
     'vue/max-attributes-per-line': 'off',

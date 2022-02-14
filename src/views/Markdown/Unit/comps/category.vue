@@ -1,5 +1,5 @@
 <template>
-  <div class="category" v-show="navList.length">
+  <div v-show="navList.length" class="category">
     <h3 class="category-title text-center">目录</h3>
     <ul class="category-ul">
       <li v-for="(nav, index) in navList" :key="index" :class="{ on: activeIndex === index }" @click="currentClick(index)">
@@ -24,7 +24,7 @@
 // TODO 目录点击移动到对应标题的位置稍微有些偏差
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
-import { Catalogue, Nav } from '../types/index'
+import { Nav } from '../types/index'
 
 const props = defineProps({
   ctx: null,
@@ -34,12 +34,12 @@ const props = defineProps({
 })
 const { ctx, helpDocs, content, document: documentSub } = toRefs(props)
 
-let navList = ref<Nav[]>([])
-let activeIndex = ref<number>(0)
-let docsFirstLevels = ref<number[]>([])
-let docsSecondLevels = ref<number[]>([])
-let childrenActiveIndex = ref<number>(0)
-let titleClickScroll = ref<boolean>(false)
+const navList = ref<Nav[]>([])
+const activeIndex = ref<number>(0)
+const docsFirstLevels = ref<number[]>([])
+const docsSecondLevels = ref<number[]>([])
+const childrenActiveIndex = ref<number>(0)
+const titleClickScroll = ref<boolean>(false)
 
 const createCategory = () => {
   // 生成目录
@@ -54,7 +54,7 @@ const childrenCurrentClick = (index: number) => {
 const getDocsFirstLevels = (times: number) => {
   // 解决图片加载会影响高度问题
   setTimeout(() => {
-    let firstLevels: Array<number> = []
+    const firstLevels: Array<number> = []
     Array.from(documentSub.value.querySelectorAll('h3'), (element: any) => {
       firstLevels.push(element.offsetTop - 60)
     })
@@ -67,9 +67,9 @@ const getDocsFirstLevels = (times: number) => {
 }
 
 const getDocsSecondLevels = (parentActiveIndex: number) => {
-  let idx = parentActiveIndex
+  const idx = parentActiveIndex
   let secondLevels: Array<number> = []
-  let navChildren = navList.value[idx].children
+  const navChildren = navList.value[idx].children
 
   if (navChildren.length > 0) {
     secondLevels = navChildren.map((item: any) => {
@@ -82,17 +82,17 @@ const getDocsSecondLevels = (parentActiveIndex: number) => {
 
 const docsScroll = () => {
   if (titleClickScroll.value) return
-  let scrollTop = helpDocs.scrollTop
-  let firstLevelIndex = getLevelActiveIndex(scrollTop, docsFirstLevels.value)
+  const scrollTop = helpDocs.scrollTop
+  const firstLevelIndex = getLevelActiveIndex(scrollTop, docsFirstLevels.value)
   currentClick(firstLevelIndex)
 
-  let secondLevelIndex = getLevelActiveIndex(scrollTop, docsSecondLevels.value)
+  const secondLevelIndex = getLevelActiveIndex(scrollTop, docsSecondLevels.value)
   childrenCurrentClick(secondLevelIndex)
 }
 
 const getLevelActiveIndex = (scrollTop: number, docsLevels: Array<number>) => {
   let currentIdx = null
-  let nowActive = docsLevels.some((currentValue: number, index: number) => {
+  const nowActive = docsLevels.some((currentValue: number, index: number) => {
     if (currentValue >= scrollTop) {
       currentIdx = index
       return true
@@ -125,27 +125,29 @@ const currentClick = (index: number) => {
 }
 // 获取章节标题
 const getTitle = (content: any) => {
-  let nav = [],
-    tempArr = <any>[]
+  let nav = []
+  const tempArr = [] as any
 
   // 过滤掉所有 引用、代码块
   content = content.replace(/```([\s\S]*?)```[\s]*/g, '')
 
   // 找到所有 标题
   content.replace(/(#+)[^#][^\n]*?(?:\n)/g, function (match: any, m1: any) {
-    let title = match.replace('\n', '')
-    let level = m1.length
     tempArr.push({
-      title: title.replace(/^#+/, '').replace(/\([^)]*?\)/, ''),
-      level: level,
+      title: match
+        .replace('\n', '')
+        .replace(/^#+/, '')
+        .replace(/\([^)]*?\)/, ''),
+      level: m1.length,
       children: []
     })
   })
 
   // 只处理二级到四级标题，以及添加与id对应的index值，这里还是有点bug,因为某些code里面的注释可能有多个井号
-  nav = tempArr.filter((item: any) => item.level >= 2 && item.level <= 4)
+
+  nav = tempArr.filter(item => item.level >= 2 && item.level <= 4)
   let index = 0
-  let titleNavs = (nav = nav.map((item: any) => {
+  const titleNavs = (nav = nav.map((item: any) => {
     item.index = index++
     return item
   }))
@@ -155,10 +157,10 @@ const getTitle = (content: any) => {
 
 // 将一级二级标题数据处理成树结构
 const handleNavTree = () => {
-  let navs = getTitle(content.value)
-  let navLevel = [3, 4]
-  let retNavs = <any>[]
-  let toAppendNavList = <any>[]
+  const navs = getTitle(content.value)
+  const navLevel = [3, 4]
+  let retNavs = [] as any
+  let toAppendNavList = [] as any
 
   navLevel.forEach((level: number) => {
     toAppendNavList = find(navs, {
@@ -172,7 +174,7 @@ const handleNavTree = () => {
       // 处理二级标题
       toAppendNavList.forEach((item: any) => {
         // item = Object.assign(item)
-        let parentNavIndex = getParentIndex(navs, item.index)
+        const parentNavIndex = getParentIndex(navs, item.index)
         return appendToParentNav(retNavs, parentNavIndex, item)
       })
     }
@@ -183,7 +185,7 @@ const handleNavTree = () => {
 
 const find = (arr: any, condition: any) => {
   return arr.filter((item: any) => {
-    for (let key in condition) {
+    for (const key in condition) {
       if (condition.hasOwnProperty(key) && condition[key] !== item[key]) {
         return false
       }
@@ -200,7 +202,7 @@ const getParentIndex = (nav: any, endIndex: number) => {
   }
 }
 const appendToParentNav = (nav: any, parentIndex: number, newNav: any) => {
-  let index = findIndex(nav, {
+  const index = findIndex(nav, {
     index: parentIndex
   })
   //   console.log('nav[index].child', index, nav, nav[index].children, parentIndex, newNav)
