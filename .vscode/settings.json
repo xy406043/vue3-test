@@ -43,6 +43,8 @@
     "vitejs",
     "vnode",
     "vuex",
+    "pinia",
+
     // ant-design
     "vant",
     "antd",

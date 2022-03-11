@@ -1,9 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import Components from 'unplugin-vue-components/vite' // 取代 vite-plugin-components
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-import unocss from 'unocss/vite'
-import styleImport, { AndDesignVueResolve } from 'vite-plugin-style-import'
+import WindiCSS from 'vite-plugin-windicss'
+import styleImport from 'vite-plugin-style-import'
 import { resolve } from 'path'
 
 function pathResolve(dir: string) {
@@ -20,7 +18,7 @@ export default defineConfig({
   },
 
   plugins: [
-    unocss({}),
+    WindiCSS({}),
     vue({
       template: {
         compilerOptions: {

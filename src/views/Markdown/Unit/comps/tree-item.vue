@@ -39,6 +39,6 @@ const toPath = (item: string) => {
   font-weight: bolder;
 }
 a {
-  color: rgb(68, 223, 184) ;
+  color: rgb(68, 223, 184);
 }
 </style>

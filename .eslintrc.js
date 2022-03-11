@@ -67,7 +67,7 @@ module.exports = {
     'no-tabs': 0,
     'no-delete-var': 2,
     'prefer-const': [
-      2,
+      1,
       {
         ignoreReadBeforeAssign: false
       }

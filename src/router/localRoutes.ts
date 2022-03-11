@@ -1,7 +1,6 @@
 import BasicLayout from '../layouts/BasicLayout.vue'
-import UserLayout from '../layouts/UserLayout.vue'
 
-import { BasicRoutes } from './routes/a_index'
+import { BasicRoutes } from './routes/index'
 
 import type { RouteRecordRaw } from 'vue-router'
 export const Routes: RouteRecordRaw[] = [

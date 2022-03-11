@@ -11,7 +11,7 @@ import { FcWaveFilter, FcBubbles } from 'fancy-components'
 
 // css 样式库
 import 'css-doodle'
-import 'uno.css'
+import 'virtual:windi.css'
 /**
  * 批量注册组件
  * @param app

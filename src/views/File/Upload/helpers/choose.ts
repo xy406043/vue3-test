@@ -2,19 +2,19 @@ import axios from 'axios'
 import { message } from 'ant-design-vue'
 
 export const submit = () => {
-  let file = document.getElementById('uploadfile')
+  const file = document.getElementById('uploadfile')
   file.value = ''
   file?.dispatchEvent(new MouseEvent('click'))
 }
 
 // 选择文件处理
 export const fileChoose = () => {
-  let doms: any = document.getElementById('uploadfile')
-  let file = doms.files[0]
-  let fileReader = new FileReader()
+  const doms: any = document.getElementById('uploadfile')
+  const file = doms.files[0]
+  const fileReader = new FileReader()
   fileReader.onload = (e: any) => {
     // 模拟 以base64格式获取到/捕获到 了 图片等文件格式
-    let base64 = e?.currentTarget?.result
+    const base64 = e?.currentTarget?.result
     // let base64 = fileReader.result
     readyToUpload(base64)
   }
@@ -24,7 +24,7 @@ export const fileChoose = () => {
 // 网图解析 再重新上传
 export const fetchUpload = () => {
   // https://juejin.cn/post/7007306583231168526
-  let type = 3
+  const type = 3
   switch (type) {
     // 1. onload && canvas
     // 2. ajax
@@ -33,7 +33,7 @@ export const fetchUpload = () => {
       $.ajax('https://easystock.oss-cn-hangzhou.aliyuncs.com/db9c89b7f4064d9ebb2673580a41a400.png', {
         xhrFields: { responseType: 'blob' }
       }).then(blob => {
-        let reader = new FileReader()
+        const reader = new FileReader()
         reader.onload = e => {
           readyToUpload(reader.result)
         }
@@ -46,7 +46,7 @@ export const fetchUpload = () => {
       fetch('https://easystock.oss-cn-hangzhou.aliyuncs.com/db9c89b7f4064d9ebb2673580a41a400.png')
         .then(res => res.blob())
         .then(blob => {
-          let reader = new FileReader()
+          const reader = new FileReader()
           reader.onload = e => {
             readyToUpload(reader.result)
           }
@@ -60,12 +60,12 @@ export const fetchUpload = () => {
 
 // 截取视频第一帧
 export const videoFirstFrame = () => {
-  let video = document.createElement('video')
+  const video = document.createElement('video')
   video.setAttribute('crossOrigin', 'anonymous')
   video.src = 'https://easystock.oss-cn-hangzhou.aliyuncs.com/76b1011e01244e94893ccf1965fa9c78.mp4'
   video.currentTime = 0.2
   video.addEventListener('loadeddata', function () {
-    let canvas = document.createElement('canvas')
+    const canvas = document.createElement('canvas')
     canvas.width = video.videoWidth
     canvas.height = video.videoHeight
     canvas.getContext('2d')?.drawImage(video, 0, 0, canvas.width, canvas.height)
@@ -76,7 +76,7 @@ export const videoFirstFrame = () => {
 
 // 准备转换为File/Blob 进行上传
 function readyToUpload(base64: string) {
-  let newForm = new FormData()
+  const newForm = new FormData()
   newForm.append('files', dataUrlToFile(base64, 'sas.png'))
 
   axios
@@ -95,7 +95,7 @@ function readyToUpload(base64: string) {
 }
 
 function dataUrlToFile(dataurl: any, filename: string) {
-  var arr = dataurl.split(','),
+  let arr = dataurl.split(','),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),
     n = bstr.length,
@@ -107,7 +107,7 @@ function dataUrlToFile(dataurl: any, filename: string) {
 }
 
 function dataUrlToBlob(urlData: any, filename: string) {
-  var arr = urlData.split(','),
+  let arr = urlData.split(','),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = window.atob(arr[1]),
     n = bstr.length,
