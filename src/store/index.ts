@@ -1,23 +1,10 @@
-import { createStore } from 'vuex'
-import { UserStore, State as UserState } from '@/store/modules/user'
-import { store as user } from '@/store/modules/user'
+import type { App } from 'vue'
+import { createPinia } from 'pinia'
 
-export type RootState = {
-  user: UserState
+const store = createPinia()
+
+export function setupStore(app: App<Element>) {
+  app.use(store)
 }
 
-export type Store = UserStore<Pick<RootState, 'user'>>
-
-const store = createStore({
-  mutations: {},
-
-  actions: {},
-
-  getters: {},
-
-  modules: {
-    user
-  }
-})
-
-export default store
+export { store }

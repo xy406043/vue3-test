@@ -61,7 +61,6 @@ export default function loadAntdComps(app: App) {
   app.use(Upload)
   app.use(Tooltip)
   app.use(Progress)
-
   const $msg = (type: string, msg: string) => message[type](msg)
   app.config.globalProperties.$ams = (msg: string) => $msg('success', msg)
   app.config.globalProperties.$ame = (msg: string) => $msg('error', msg)

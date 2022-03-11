@@ -18,7 +18,7 @@
   },
 
   "javascript.validate.enable": false, // 避免ts检查
-  "typescript.validate.enable": false,
+  "typescript.validate.enable": true,
 
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -43,9 +43,12 @@
     "vitejs",
     "vnode",
     "vuex",
+    "pinia",
+
     // ant-design
     "vant",
     "antd",
     "hoverable"
-  ]
+  ],
+  "i18n-ally.localesPaths": ["src/locales", "src/locales/lang"]
 }

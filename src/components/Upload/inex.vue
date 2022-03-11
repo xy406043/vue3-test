@@ -113,14 +113,14 @@ const _beforeUpload = (file: File, files: FileList) => {
 
 const _customRequest = (options: any) => {
   const { onSuccess, onError, file, onProgress } = options
-  const formdata = new FormData()
-  formdata.append('files', file)
+  const formData = new FormData()
+  formData.append('files', file)
   axios
     .request({
       url: props.url,
       headers: headers.value,
       method: 'post',
-      data: formdata
+      data: formData
     })
     .then(res => {
       if (res.data.code === 0) {

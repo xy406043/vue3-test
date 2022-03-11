@@ -2,17 +2,18 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import setupGlobComps from './plugins'
 import router from './router'
-import store from './store'
-import 'uno.css'
+import { setupStore } from '/@/store'
 
-const app = createApp(App)
+async function bootstrap() {
+  const app = createApp(App)
 
-// app.config.devtools = true
-app.config.performance = true
+  app.config.performance = true
 
-setupGlobComps(app)
+  setupGlobComps(app)
 
-app.use(router)
-app.use(store)
+  app.use(router)
 
-app.mount('#app')
+  app.mount('#app')
+}
+
+bootstrap()

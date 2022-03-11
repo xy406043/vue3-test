@@ -8,29 +8,28 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "noImplicitAny": false,
+    "lib": ["esnext", "dom"],
     "baseUrl": ".",
     "skipLibCheck": true,
-    "typeRoots": [
-      "./node_modules/@types/",
-      "./types"
-    ],
+    "typeRoots": ["./node_modules/@types/", "./types"],
+    // "types": ["vite/client"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-    },
+      "@/*": ["src/*"],
+      "/@/*": ["src/*"],
+      "/#/*": ["types/*"]
+    }
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "vite.config.ts",
+    "types/**/*.d.ts",
+    "types/**/*.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules", "dist", "**/*.js"]
 }
