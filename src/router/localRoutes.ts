@@ -10,7 +10,7 @@ export const Routes: RouteRecordRaw[] = [
     name: 'index',
     meta: { title: '' },
     component: BasicLayout,
-    redirect: '/file',
+    redirect: '/css',
     children: BasicRoutes
   }
 ]
