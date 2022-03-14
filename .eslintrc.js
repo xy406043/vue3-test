@@ -1,7 +1,9 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    es6: true,
+    browser: true
   },
   parser: 'vue-eslint-parser',
   extends: ['plugin:vue/vue3-recommended', 'plugin:@typescript-eslint/recommended', 'prettier', 'plugin:prettier/recommended'],
@@ -9,6 +11,7 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module',
+    jsxPragma: 'React',
     ecmaFeatures: {
       jsx: true
     }
@@ -76,13 +79,13 @@ module.exports = {
     'comma-dangle': 0,
     'space-before-function-paren': 0,
     'handle-callback-err': 0
-  },
-  overrides: [
-    {
-      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
-      env: {
-        jest: true
-      }
-    }
-  ]
+  }
+  // overrides: [
+  //   {
+  //     files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
+  //     env: {
+  //       jest: true
+  //     }
+  //   }
+  // ]
 }

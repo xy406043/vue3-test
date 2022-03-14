@@ -1,21 +1,18 @@
 <template>
   <a-config-provider :locale="locale">
     <router-view />
+    {{ showName }}
   </a-config-provider>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { defineComponen, ref } from 'vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import { useI18n } from '/@/hooks/web/useI18n'
 
-export default defineComponent({
-  name: 'App',
-  data() {
-    return {
-      locale: zhCN
-    }
-  }
-})
+const { t } = useI18n()
+
+const showName = ref<string>(t('layout.header.home'))
 </script>
 
 <style lang="less" scoped>

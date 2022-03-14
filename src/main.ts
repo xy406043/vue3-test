@@ -9,6 +9,8 @@ async function bootstrap() {
 
   app.config.performance = true
 
+  setupStore(app)
+
   setupGlobComps(app)
 
   app.use(router)
