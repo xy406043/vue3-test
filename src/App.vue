@@ -1,18 +1,14 @@
 <template>
-  <a-config-provider :locale="locale">
+  <a-config-provider :locale="getAntdLocale">
     <router-view />
-    <!-- {{ showName }} -->
   </a-config-provider>
 </template>
 
 <script lang="ts" setup>
-import { defineComponen, ref } from 'vue'
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import { useI18n } from '/@/hooks/web/uesI18n'
+import { ref } from 'vue'
+import { useLocale } from '/@/locales/useLocale'
 
-const { t } = useI18n()
-
-const showName = ref<string>(t('layout.header.home'))
+const { getAntdLocale } = useLocale()
 </script>
 
 <style lang="less" scoped>

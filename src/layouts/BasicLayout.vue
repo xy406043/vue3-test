@@ -5,6 +5,7 @@
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
   >
+    <AppLocalePicker :reload="true" />
     <router-view />
   </pro-layout>
 </template>
@@ -16,6 +17,7 @@ import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout'
 import type { RouteContextProps } from '@ant-design-vue/pro-layout'
 import layoutConf from '../settings/layoutConf'
 import Logo from '@/assets/logo.png'
+import AppLocalePicker from '/@/components/Application/AppLocalePicker.vue'
 
 const i18n = (t: string) => t
 const router = useRouter()

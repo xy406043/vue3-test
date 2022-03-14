@@ -2,9 +2,12 @@ import { defineConfig, loadEnv } from 'vite'
 import type { UserConfig, ConfigEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import WindiCSS from 'vite-plugin-windicss'
-import styleImport from 'vite-plugin-style-import'
+import { createStyleImportPlugin, AntdResolve } from 'vite-plugin-style-import'
 import { resolve } from 'path'
 import { wrapperEnv } from './build/utils'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'path'
+import purgeIcons from 'vite-plugin-purge-icons'
 
 function pathResolve(dir: string) {
   return resolve(process.cwd(), '.', dir)
@@ -44,17 +47,28 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       // Components({ resolvers: [AntDesignVueResolver()] })
 
       // 只引入样式，在项目初始化时将组件样式添加到全局
-      styleImport({
-        // ! 不生效
-        //   resolves: [AndDesignVueResolve()],
-        // ! 只能使用此种写法 前置加上 /node_modules/才生效
-        libs: [
-          {
-            libraryName: 'ant-design-vue',
-            esModule: true,
-            resolveStyle: name => `/node_modules/ant-design-vue/es/${name}/style/index.less`
-          }
-        ]
+      // styleImport({
+      //   // ! 不生效
+      //   //   resolves: [AndDesignVueResolve()],
+      //   // ! 只能使用此种写法 前置加上 /node_modules/才生效
+      //   libs: [
+      //     {
+      //       libraryName: 'ant-design-vue',
+      //       esModule: true,
+      //       resolveStyle: name => `/node_modules/ant-design-vue/es/${name}/style/index.less`
+      //     }
+      //   ]
+      // })
+      createSvgIconsPlugin({
+        iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+        svgoOptions: isBuild,
+        // default
+        symbolId: 'icon-[dir]-[name]'
+      }),
+
+      purgeIcons(),
+      createStyleImportPlugin({
+        resolves: [AntdResolve()]
       })
     ],
 

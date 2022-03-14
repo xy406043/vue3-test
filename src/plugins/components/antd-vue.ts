@@ -30,7 +30,8 @@ import {
   message,
   notification,
   Progress,
-  Tooltip
+  Tooltip,
+  Popconfirm
 } from 'ant-design-vue'
 
 export default function loadAntdComps(app: App) {
@@ -45,6 +46,7 @@ export default function loadAntdComps(app: App) {
   app.use(Select)
   app.use(Badge)
   app.use(Popover)
+  app.use(Popconfirm)
   app.use(Pagination)
   app.use(Alert)
   app.use(Empty)
