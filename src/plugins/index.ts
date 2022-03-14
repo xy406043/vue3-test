@@ -5,12 +5,13 @@ import loadProLayoutComp from './components/pro-layout'
 import loadIcons from './components/icon'
 
 // 动画库
-import { MotionPlugin } from '@vueuse/motion'
+// import { MotionPlugin } from '@vueuse/motion'
 import { FcWaveFilter, FcBubbles } from 'fancy-components'
+// import 'ant-design-vue/dist/antd.css'
 
 // css 样式库
 import 'css-doodle'
-
+import 'virtual:windi.css'
 /**
  * 批量注册组件
  * @param app
@@ -27,5 +28,6 @@ export default function setupGlobComps(app: App) {
   new FcBubbles()
 
   // other plugins
-  app.use(MotionPlugin)
+  // 会引起系统报错
+  // app.use(MotionPlugin)
 }

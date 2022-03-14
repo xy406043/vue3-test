@@ -30,7 +30,8 @@ import {
   message,
   notification,
   Progress,
-  Tooltip
+  Tooltip,
+  Popconfirm
 } from 'ant-design-vue'
 
 export default function loadAntdComps(app: App) {
@@ -45,6 +46,7 @@ export default function loadAntdComps(app: App) {
   app.use(Select)
   app.use(Badge)
   app.use(Popover)
+  app.use(Popconfirm)
   app.use(Pagination)
   app.use(Alert)
   app.use(Empty)
@@ -61,7 +63,6 @@ export default function loadAntdComps(app: App) {
   app.use(Upload)
   app.use(Tooltip)
   app.use(Progress)
-
   const $msg = (type: string, msg: string) => message[type](msg)
   app.config.globalProperties.$ams = (msg: string) => $msg('success', msg)
   app.config.globalProperties.$ame = (msg: string) => $msg('error', msg)

@@ -1,5 +1,5 @@
 import saveAs from 'file-saver'
-import Excel from 'exceljs'
+import Excel, { WorksheetView } from 'exceljs'
 
 // ~~ https://gitee.com/mirrors/exceljs#exceljs
 
@@ -54,6 +54,7 @@ export default function (excelData, exportColumns, filename, config) {
 
   // 设置表头高度、背景样式 （argb颜色结构）
   let row = worksheet.lastRow
+  if (!row) return
   row.height = 40
   row.eachCell((cell, number) => {
     cell.fill = {
@@ -76,8 +77,8 @@ export default function (excelData, exportColumns, filename, config) {
 
   // 添加数据项 exceljs 有多种 数据类型 ,exportColumns 中的types不太对标这些类型，只对部分特殊类型做下处理
   excelData.forEach((x, xi) => {
-    let list = []
-    let rowData = {}
+    let list: any = []
+    let rowData: any = {}
     exportColumns.forEach((y, yi) => {
       if (y.types === 'text') {
         rowData[y.key] = x[y.key]
@@ -87,7 +88,7 @@ export default function (excelData, exportColumns, filename, config) {
           extension: 'jpeg'
         })
         worksheet.addImage(imageId2, {
-          tl: { col: 0.5 + b, row: 1.5 + a },
+          tl: { col: 0.5 + y, row: 1.5 + x },
           ext: { width: 80, height: 80 } //todo 需要图片时再设置
         })
       }
@@ -96,6 +97,7 @@ export default function (excelData, exportColumns, filename, config) {
     worksheet.addRows(list)
     //控制行高
     let row = worksheet.lastRow
+    if (!row) return
     row.height = 20
     row.commit()
   })
@@ -150,7 +152,7 @@ export default function (excelData, exportColumns, filename, config) {
   // worksheet.mergesCells('A2','D2)
 
   // 冻结行、列
-  let p = { state: 'frozen', xSplit: 1, ySplit: 1 }
+  let p: Partial<WorksheetView> = { state: 'frozen', xSplit: 1, ySplit: 1 }
   if (config.freeze) {
     p.xSplit = config.freeze.x || 0
     p.ySplit = config.freeze.y || 0

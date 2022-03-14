@@ -1,4 +1,3 @@
-
 <template>
   <div id="userLayout" class="user-layout-wrapper">
     <div class="user-container">
@@ -6,12 +5,7 @@
         <div class="top" style="margin-bottom: 60px">
           <div class="header">
             <a href="/">
-              <img
-                src="@/assets/logo-login.png"
-                class="logo"
-                alt="logo"
-                style="display: inline-block"
-              />
+              <img src="@/assets/logo-login.png" class="logo" alt="logo" style="display: inline-block" />
               <span class="title">CMS</span>
             </a>
           </div>
@@ -25,20 +19,19 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeMount } from "vue";
+import { onMounted, onBeforeMount } from 'vue'
 onMounted(() => {
-  console.log("onMounted触发")
-  document.body.classList.add("userLayout");
-});
+  console.log('onMounted触发')
+  document.body.classList.add('userLayout')
+})
 
 onBeforeMount(() => {
-  console.log("onBeoforeMount触发")
-  document.body.classList.remove("userLayout");
-});
+  console.log('onBeoforeMount触发')
+  document.body.classList.remove('userLayout')
+})
 </script>
 
 <style lang="less" scoped>
-
 #userLayout.user-layout-wrapper {
   height: 100%;
 
@@ -99,7 +92,7 @@ onBeforeMount(() => {
           .title {
             font-size: 33px;
             color: rgba(0, 0, 0, 0.85);
-            font-family: Avenir, "Helvetica Neue", Arial, Helvetica, sans-serif;
+            font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
             font-weight: 600;
             position: relative;
             top: 2px;

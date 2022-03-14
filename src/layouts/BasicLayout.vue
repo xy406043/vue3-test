@@ -5,6 +5,7 @@
     v-model:openKeys="baseState.openKeys"
     v-bind="state"
   >
+    <AppLocalePicker :reload="true" />
     <router-view />
   </pro-layout>
 </template>
@@ -14,8 +15,9 @@ import { reactive, watchEffect, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMenuData, clearMenuItem } from '@ant-design-vue/pro-layout'
 import type { RouteContextProps } from '@ant-design-vue/pro-layout'
-import layoutConf from '../configs/layoutConf'
+import layoutConf from '../settings/layoutConf'
 import Logo from '@/assets/logo.png'
+import AppLocalePicker from '/@/components/Application/AppLocalePicker.vue'
 
 const i18n = (t: string) => t
 const router = useRouter()
@@ -41,6 +43,6 @@ onMounted(() => {})
 
 <style lang="less">
 .ant-pro-sider-logo {
-  mix-blend-mode: color-dodge;
+  // mix-blend-mode: color-dodge;
 }
 </style>

@@ -11,7 +11,7 @@ export default {
       path: '/BaseAl',
       name: 'BaseAl',
       meta: { title: '一般问题', icon: 'ExperimentTwoTone' },
-      component: () => import('@/views/Algorithm/Base/index.vue')
+      component: () => import('@/views/Algorithm/Base/BaseAlgorithm.vue')
     }
   ]
 }
