@@ -14,10 +14,10 @@
     }
   },
   "lint-staged": {
-    "./src/**/*.{js,ts,json,vue}": [
+    "./src/**/*.{js,ts,vue}": [
       "eslint"
     ],
-    "*.{ts,tsx,js,json,html,yml,css,less,md}": [
+    "*.{ts,tsx,js,html,yml,css,less}": [
       "prettier --write"
     ]
   },
@@ -27,6 +27,7 @@
     "@types/showdown": "^1.9.4",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.21.1",
+    "crypto-js": "^4.1.1",
     "css-doodle": "^0.19.2",
     "dayjs": "^1.10.7",
     "echarts": "^5.1.2",
@@ -46,7 +47,9 @@
     "vue-echarts": "^6.0.0-rc.6",
     "vue-i18n": "9.1.9",
     "vue-router": "^4.0.11",
-    "xlsx": "^0.17.0"
+    "xlsx": "^0.17.0",
+    "xy-use-tools": "^0.0.6",
+    "xy-vite-tools": "^0.0.56"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
@@ -76,7 +79,7 @@
     "minimist": "^1.2.5",
     "postcss": "8.1.0",
     "prettier": "^2.5.1",
-    "typescript": "^4.3.5",
+    "typescript": "^4.6.2",
     "vite": "^2.4.2",
     "vite-plugin-style-import": "^1.3.0",
     "vite-plugin-windicss": "^1.8.3",

@@ -13,12 +13,12 @@ function pathResolve(dir: string) {
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   const root = process.cwd()
 
-  const env = loadEnv(mode, root)
+  // const env = loadEnv(mode, root)
 
   // The boolean type read by loadEnv is a string. This function can be converted to boolean type
-  const viteEnv = wrapperEnv(env)
+  // const viteEnv = wrapperEnv(env)
 
-  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE } = viteEnv
+  // const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE } = viteEnv
 
   const isBuild = command === 'build'
 
@@ -32,7 +32,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
 
     plugins: [
-      WindiCSS({}),
+      WindiCSS({}), // 会引起内存溢出
       vue({
         template: {
           compilerOptions: {
@@ -81,8 +81,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 
     server: {
       cors: true,
-      open: true,
-      port: VITE_PORT
+      open: true
+      // port: VITE_PORT
     },
 
     optimizeDeps: {

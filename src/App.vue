@@ -1,14 +1,14 @@
 <template>
   <a-config-provider :locale="locale">
     <router-view />
-    {{ showName }}
+    <!-- {{ showName }} -->
   </a-config-provider>
 </template>
 
 <script lang="ts" setup>
 import { defineComponen, ref } from 'vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import { useI18n } from '/@/hooks/web/useI18n'
+import { useI18n } from '/@/hooks/web/uesI18n'
 
 const { t } = useI18n()
 
